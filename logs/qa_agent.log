@@ -1,0 +1,229 @@
+[2026-03-18 01:43:08] INFO     [utils.excel_parser] Headers: ['1. UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:43:08] INFO     [__main__] Report generated at: reports\UAT_vs_Prod_Report_20260318_014308.docx
+[2026-03-18 01:44:31] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:44:31] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 01:44:31] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 01:45:35] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:45:35] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 01:45:35] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 01:46:58] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:46:58] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 01:46:58] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 01:47:00] ERROR    [agents.page_fetcher] Error fetching https://acquia-uat.automationanywhere.com/: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://acquia-uat.automationanywhere.com/
+Call log:
+  - navigating to "https://acquia-uat.automationanywhere.com/", waiting until "networkidle"
+
+[2026-03-18 01:48:18] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:48:18] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 01:48:18] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 01:48:20] ERROR    [agents.page_fetcher] Error fetching https://www.automationanywhere.com/: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.automationanywhere.com/
+Call log:
+  - navigating to "https://www.automationanywhere.com/", waiting until "networkidle"
+
+[2026-03-18 01:50:45] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:50:45] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 01:50:45] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 01:50:45] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-03-18 01:50:48] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-03-18 01:50:50] INFO     [__main__] Report generated at: reports\UAT_vs_Prod_Report_20260318_015050.docx
+[2026-03-18 01:59:50] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 01:59:50] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 01:59:50] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 01:59:50] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/
+[2026-03-18 01:59:51] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-03-18 01:59:52] INFO     [__main__] Report generated at: reports\UAT_vs_Prod_Report_20260318_015952.docx
+[2026-03-18 02:21:14] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:21:14] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 02:21:14] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 02:21:14] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/
+[2026-03-18 02:21:17] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-03-18 02:21:19] INFO     [__main__] Report generated at: reports\UAT_vs_Prod_Report_20260318_022119.docx
+[2026-03-18 02:34:50] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:34:50] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 02:34:50] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 02:34:50] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/
+[2026-03-18 02:34:53] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-03-18 02:34:55] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_023455.html
+[2026-03-18 02:37:10] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:37:10] INFO     [utils.excel_parser] Loaded test case: homepage
+[2026-03-18 02:37:10] INFO     [agents.qa_agent] Comparing: homepage
+[2026-03-18 02:37:10] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/
+[2026-03-18 02:37:13] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-03-18 02:37:15] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_023715.html
+[2026-03-18 02:41:26] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:41:26] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-18 02:41:26] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-03-18 02:41:26] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-18 02:41:26] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:41:29] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:41:31] INFO     [agents.qa_agent] Comparing: TC2
+[2026-03-18 02:41:31] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products
+[2026-03-18 02:41:33] ERROR    [agents.page_fetcher] Error fetching https://acquia-uat.automationanywhere.com/products via requests: 401 Client Error: Unauthorized for url: https://acquia-uat.automationanywhere.com/products
+[2026-03-18 02:46:57] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:46:57] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-18 02:46:57] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-03-18 02:46:57] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-18 02:46:57] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:46:59] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:47:01] INFO     [agents.qa_agent] Comparing: TC2
+[2026-03-18 02:47:01] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products
+[2026-03-18 02:47:07] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-03-18 02:47:08] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_024708.html
+[2026-03-18 02:55:02] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:55:02] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-18 02:55:02] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-03-18 02:55:02] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-18 02:55:02] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:55:05] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:55:07] INFO     [agents.qa_agent] Comparing: TC2
+[2026-03-18 02:55:07] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products
+[2026-03-18 02:55:12] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-03-18 02:55:13] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_025513.html
+[2026-03-18 02:57:48] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 02:57:48] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-18 02:57:48] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-03-18 02:57:48] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-18 02:57:48] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:57:51] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions/customer-service
+[2026-03-18 02:57:54] INFO     [agents.qa_agent] Comparing: TC2
+[2026-03-18 02:57:54] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products
+[2026-03-18 02:58:00] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-03-18 02:58:03] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_025803.html
+[2026-03-18 03:06:12] INFO     [utils.excel_parser] Headers: ['UAT_URL', 'PROD_URL', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 03:06:12] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-18 03:06:12] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-03-18 03:08:43] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 03:08:43] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_030843.html
+[2026-03-18 03:12:58] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-18 03:12:58] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-18 03:12:58] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-03-18 03:12:58] INFO     [utils.excel_parser] Total test cases loaded: 2
+[2026-03-18 03:12:58] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-18 03:12:58] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions/customer-service
+[2026-03-18 03:13:01] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions/customer-service
+[2026-03-18 03:13:03] INFO     [agents.qa_agent] Comparing: TC2
+[2026-03-18 03:13:03] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products
+[2026-03-18 03:13:08] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-03-18 03:13:10] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260318_031310.html
+[2026-03-26 01:58:27] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-26 01:58:27] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-26 01:58:27] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-03-26 01:58:27] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-26 01:58:27] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/rpa/agentic-workflows
+[2026-03-26 01:58:31] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/rpa/agentic-workflows
+[2026-03-26 01:58:33] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260326_015833.html
+[2026-03-26 02:00:40] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-03-26 02:00:40] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-03-26 02:00:40] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-03-26 02:00:40] INFO     [agents.qa_agent] Comparing: TC1
+[2026-03-26 02:00:40] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/rpa/agentic-workflows?ddseee
+[2026-03-26 02:00:46] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/rpa/agentic-workflows
+[2026-03-26 02:00:48] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260326_020048.html
+[2026-04-03 18:26:12] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:26:12] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:26:12] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:26:12] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:26:12] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/rpa/agentic-workflows?ddseee
+[2026-04-03 18:26:23] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/rpa/agentic-workflows
+[2026-04-03 18:34:19] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:34:19] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:34:19] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:34:19] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:34:19] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/rpa/agentic-workflows?ddseee
+[2026-04-03 18:34:22] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/rpa/agentic-workflows
+[2026-04-03 18:34:24] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_183424.html
+[2026-04-03 18:37:20] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:37:20] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:37:20] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:37:20] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:37:20] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com?dsdsd
+[2026-04-03 18:37:26] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-04-03 18:37:29] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_183729.html
+[2026-04-03 18:42:55] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:42:55] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:42:55] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:42:55] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:42:55] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com?dsdsd
+[2026-04-03 18:42:58] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-04-03 18:43:02] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_184302.html
+[2026-04-03 18:54:41] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:54:41] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:54:41] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:54:41] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:54:41] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com?dsdsd
+[2026-04-03 18:54:43] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/
+[2026-04-03 18:54:47] INFO     [agents.qa_agent] Taking screenshots for: TC1
+[2026-04-03 18:54:47] ERROR    [agents.page_fetcher] Screenshot failed for https://acquia-uat.automationanywhere.com?dsdsd: 
+[2026-04-03 18:54:47] ERROR    [agents.page_fetcher] Screenshot failed for https://www.automationanywhere.com/: 
+[2026-04-03 18:54:47] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_185447.html
+[2026-04-03 18:57:03] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:57:03] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:57:03] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:57:03] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:57:03] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions?Dsds33
+[2026-04-03 18:57:09] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions
+[2026-04-03 18:57:13] INFO     [agents.qa_agent] Taking screenshots for: TC1
+[2026-04-03 18:57:13] ERROR    [agents.page_fetcher] Screenshot failed for https://acquia-uat.automationanywhere.com/solutions?Dsds33: 
+[2026-04-03 18:57:13] ERROR    [agents.page_fetcher] Screenshot failed for https://www.automationanywhere.com/solutions: 
+[2026-04-03 18:57:13] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_185713.html
+[2026-04-03 18:59:47] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 18:59:47] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 18:59:47] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 18:59:47] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 18:59:47] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-04-03 18:59:51] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-03 18:59:54] ERROR    [agents.page_fetcher] Error fetching https://acquia-uat.automationanywhere.com/products?DSds via requests: 401 Client Error: Unauthorized for url: https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-03 18:59:54] ERROR    [__main__] 401 Client Error: Unauthorized for url: https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-03 19:00:38] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 19:00:38] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 19:00:38] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 19:00:38] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 19:00:38] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-03 19:00:45] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-04-03 19:00:49] INFO     [agents.qa_agent] Taking screenshots for: TC1
+[2026-04-03 19:00:49] ERROR    [agents.page_fetcher] Screenshot failed for https://acquia-uat.automationanywhere.com/products?DSds: 
+[2026-04-03 19:00:49] ERROR    [agents.page_fetcher] Screenshot failed for https://www.automationanywhere.com/products: 
+[2026-04-03 19:00:49] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_190049.html
+[2026-04-03 19:01:01] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-03 19:01:01] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-03 19:01:01] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-03 19:01:01] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-03 19:01:01] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-03 19:01:04] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-04-03 19:01:06] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260403_190106.html
+[2026-04-14 18:57:39] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-14 18:57:39] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-14 18:57:39] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-14 18:57:39] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-14 18:57:39] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-14 18:57:53] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-04-14 18:57:54] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260414_185754.html
+[2026-04-14 19:01:04] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-14 19:01:04] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-14 19:01:04] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-14 19:01:04] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-14 19:01:04] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-14 19:01:07] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-04-14 19:01:09] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260414_190109.html
+[2026-04-14 19:41:12] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-14 19:41:12] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-14 19:41:12] INFO     [utils.excel_parser] Loaded test case: TC2
+[2026-04-14 19:41:12] INFO     [utils.excel_parser] Total test cases loaded: 2
+[2026-04-14 19:41:12] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-14 19:41:12] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/products?DSds
+[2026-04-14 19:41:15] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/products
+[2026-04-14 19:41:17] INFO     [agents.qa_agent] Comparing: TC2
+[2026-04-14 19:41:17] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/request-live-demo
+[2026-04-14 19:41:20] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/contact-us
+[2026-04-14 19:41:23] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260414_194123.html
+[2026-04-14 22:17:13] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-14 22:17:13] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-14 22:17:13] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-14 22:17:13] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-14 22:17:13] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/lp/orchestrating-the-autonomous-enterprise?t455raaa
+[2026-04-14 22:17:19] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/lp/orchestrating-the-autonomous-enterprise
+[2026-04-14 22:17:25] INFO     [__main__] Report generated at: reports\uat_vs_prod_report_20260414_221725.html
+[2026-04-15 01:34:05] INFO     [agents.qa_agent] Comparing: Single URL comparison
+[2026-04-15 01:34:05] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/contact-us
+[2026-04-15 01:34:08] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/contact-us
+[2026-04-15 01:34:09] INFO     [__main__] Report at: reports\uat_vs_prod_report_20260415_013409.html

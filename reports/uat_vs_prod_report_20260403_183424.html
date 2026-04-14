@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html><head><meta charset='utf-8'>
+<title>Page Comparison Report</title>
+<style>
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+                background-color: #f5f7fb;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 20px 20px 40px;
+            }
+            .header {
+                background: linear-gradient(135deg, #2563eb, #1e40af);
+                color: white;
+                padding: 20px 25px;
+                border-radius: 12px;
+                box-shadow: 0 10px 20px rgba(15, 23, 42, 0.3);
+                margin-bottom: 24px;
+            }
+            .header h1 {
+                margin: 0 0 8px;
+                font-size: 24px;
+            }
+            .header p {
+                margin: 2px 0;
+                font-size: 13px;
+                opacity: 0.9;
+            }
+            .badge {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 999px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+            }
+            .badge-pass {
+                background-color: #dcfce7;
+                color: #166534;
+            }
+            .badge-fail {
+                background-color: #fee2e2;
+                color: #b91c1c;
+            }
+            .summary {
+                background-color: white;
+                border-radius: 12px;
+                padding: 16px 18px;
+                box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+                margin-bottom: 20px;
+            }
+            .summary-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+            .summary-table th {
+                text-align: left;
+                padding: 6px 0;
+                color: #6b7280;
+                font-weight: 600;
+                border-bottom: 1px solid #e5e7eb;
+            }
+            .summary-table td {
+                padding: 6px 0;
+                border-bottom: 1px solid #f3f4f6;
+            }
+            .status-pass { color: #16a34a; font-weight: 600; }
+            .status-fail { color: #dc2626; font-weight: 600; }
+
+            .page-card {
+                background-color: white;
+                border-radius: 12px;
+                padding: 16px 18px 12px;
+                box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+                margin-bottom: 16px;
+            }
+            .page-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                margin-bottom: 8px;
+            }
+            .page-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: #111827;
+            }
+            .page-status-pass {
+                color: #16a34a;
+                font-weight: 600;
+            }
+            .page-status-fail {
+                color: #dc2626;
+                font-weight: 600;
+            }
+            .urls {
+                font-size: 12px;
+                color: #4b5563;
+                margin-bottom: 8px;
+            }
+            .section-row {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+            .section {
+                flex: 1 1 250px;
+                background-color: #f9fafb;
+                border-radius: 8px;
+                padding: 10px 12px;
+                margin-top: 4px;
+            }
+            .section h3 {
+                margin: 0 0 4px;
+                font-size: 13px;
+                color: #111827;
+            }
+            .section-status {
+                font-size: 12px;
+                margin: 0 0 4px;
+            }
+            .section-status.pass { color: #16a34a; }
+            .section-status.fail { color: #dc2626; }
+            .section ul {
+                margin: 0;
+                padding-left: 18px;
+                font-size: 12px;
+                color: #374151;
+            }
+            .section li {
+                margin: 2px 0;
+            }
+            .footer {
+                margin-top: 24px;
+                font-size: 11px;
+                color: #9ca3af;
+                text-align: center;
+            }
+        
+</style></head><body>
+<div class='container'>
+<div class='header'>
+<h1>Page Comparison Report</h1>
+<p>Generated: 2026-04-03 18:34:24.723517</p>
+<p>Pages tested: 1 &middot; Passed: 0 &middot; Failed: 1</p>
+<p>Overall Status: <span class='badge badge-fail'>FAIL</span></p>
+</div>
+<div class='summary'>
+<table class='summary-table'>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Total pages</td><td>1</td></tr>
+<tr><td>Passed</td><td class='status-pass'>0</td></tr>
+<tr><td>Failed</td><td class='status-fail'>1</td></tr>
+<tr><td>Overall status</td><td><span class='badge badge-fail'>FAIL</span></td></tr>
+</table>
+</div>
+<div class='page-card'>
+<div class='page-header'>
+<div class='page-title'>TC1</div>
+<div class='page-status-fail'>FAIL</div>
+</div>
+<div class='urls'>
+<div><b>URL A:</b> https://acquia-uat.automationanywhere.com/rpa/agentic-workflows?ddseee</div>
+<div><b>URL B:</b> https://www.automationanywhere.com/rpa/agentic-workflows</div>
+</div>
+<div class='section-row'>
+<div class='section'>
+<h3>Content</h3>
+<p class='section-status fail'>Differences found:</p><ul>
+<li>Prod only: A support case often requires data from multiple existing systems. An agentic workflow reviews account history, checks system status, and initiates a resolution such as a refund or a password reset through automated processes. This shifts the human role from data gathering to high-level empathy and decision-making.</li>
+<li>Prod only: Agentic Workflows: How AI Agents Orchestrate Complex Tasks</li>
+<li>Prod only: Agentic workflows follow an operating pattern: agents sense what is happening, decide what to do, act on that decision, and review the outcome. Importantly, while the reasoning that drives this cycle is adaptive, the execution of individual actions is primarily deterministic carried out by reliable, rules-based AI tools.</li>
+<li>Prod only: Agentic workflows put AI agents to work within orchestrated business processes combining adaptive reasoning with reliable, deterministic execution to handle complex, judgment-heavy work that conventional automation approaches or standalone AI cannot manage effectively.</li>
+<li>Prod only: Agents take action end-to-end reasoning, deciding, and completing tasks across systems without waiting for human direction at each step.</li>
+<li>Prod only: Autonomous operations is what this looks like at scale processes running continuously and consistently, with humans involved where their judgment is genuinely required, versus at every transition point.</li>
+<li>Prod only: Enabling capabilities:Tool calling is how agents interact with external systems at execution time invoking APIs, triggering RPA, running code, and sending communications. Pre-built integrations and native connectors extend the range of systems agents can reach, while role-based access controls and approval gates define what they're permitted to do.</li>
+<li>Prod only: Governance and human oversight are not constraints on autonomous operations they’re what make it sustainable. The goal is not to remove humans from the process but to concentrate their involvement where it adds the most value: consequential decisions, new situations, and continuous improvement of the workflows themselves.</li>
+<li>Prod only: Most organizations still begin with task automation individual, repetitive steps handled by rules-based tools. From there, assisted workflows bring AI into the loop to support human decision-making without replacing it. Agentic workflows represent the next step: end-to-end process execution where orchestrated AI agents handle judgment, coordination, and exception resolution within governed boundaries.</li>
+<li>Prod only: That last point is important. Autonomous operations are not an outcome of deploying AI agents in isolation. They require the full capability stack described above orchestration to coordinate execution, deterministic automation to carry out actions reliably, human-in-the-loop controls to maintain oversight where it counts, and governance infrastructure to ensure every action is traceable and compliant.</li>
+<li>Prod only: What happens:Before acting, the agent retrieves the information it needs relevant policies, historical data, prior interactions, and the current system state. This ensures the agent isn't "guessing" but is operating on facts.</li>
+<li>Prod only: What happens:Once a task completes, outcomes are logged and evaluated against expected results. Where results fall outside defined parameters, exceptions are flagged for human review. Insights from that review feed back into the workflow refining routing logic, decision criteria, agent instructions, and knowledge sources so the system handles similar situations better over time.</li>
+<li>Prod only: What happens:The agent activates the appropriate tools to execute tasks it has planned. The actual execution updating records, processing transactions, triggering downstream workflows is handled by a combination of deterministic components such as RPA, which perform these steps with precision, and non-deterministic operations. Where a step requires explicit approval, orchestration pauses the workflow and routes it to a human.</li>
+<li>Prod only: What happens:The workflow begins when an AI agent detects a trigger an incoming document, a system event, a data change, or a user request expressed in natural language. In those cases, the agent first interprets the request and contextually disambiguates the user’s intent to determine whether to initiate a workflow. This highlights an important distinction from traditional automation, which typically relies on predefined intents or rigid triggers.  This is the starting condition that sets theagentic AIfor workflows in motion.</li>
+<li>Prod only: Why it matters:Agentic workflows adapt continuously to real-world conditions rather than executing the same fixed logic regardless of what's working. Feedback loops allow the system to improve through experience adjusting to changing business rules, new data patterns, and edge cases as they emerge while keeping adaptation deliberate and auditable through the orchestration layer rather than leaving it to the model.</li>
+<li>Prod only: Why it matters:Automatic initiation eliminates the delays and missed handoffs that come from relying on humans to spot and route incoming work. When triggers arrive without explicit instructions an incoming document, an unstructured request, a data event requiring classification the agent interprets intent before acting, which is what keeps everything downstream correctly directed.</li>
+<li>Prod only: Why it matters:This is where an agentic workflow moves beyond analysis and recommendation the agent completes the task end to end, across systems, without requiring a human to act on its output. Approval gates and role-based permissions ensure that sensitive steps stay controlled without making humans a bottleneck for routine execution.</li>
+<li>Prod only: A support case often requires data from multiple existing systems. An agentic workflow reviews account history, checks system status, and initiates a resolution—such as a refund or a password reset—through automated processes. This shifts the human role from data gathering to high-level empathy and decision-making.</li>
+<li>Prod only: Agentic Workflows: The Enterprise Guide to Autonomous AI Operations</li>
+<li>Prod only: Agentic workflows follow an operating pattern: agents sense what is happening, decide what to do, act on that decision, and review the outcome. Importantly, while the reasoning that drives this cycle is adaptive, the execution of individual actions is primarily deterministic—carried out by reliable, rules-based AI tools.</li>
+<li>Prod only: Agentic workflows put AI agents to work within orchestrated business processes—combining adaptive reasoning with reliable, deterministic execution to handle complex, judgment-heavy work that conventional automation approaches or standalone AI cannot manage effectively.</li>
+<li>Prod only: Agents take action end-to-end — reasoning, deciding, and completing tasks across systems without waiting for human direction at each step.</li>
+<li>Prod only: Autonomous operations is what this looks like at scale — processes running continuously and consistently, with humans involved where their judgment is genuinely required, versus at every transition point.</li>
+<li>Prod only: Enabling capabilities:Tool calling is how agents interact with external systems at execution time — invoking APIs, triggering RPA, running code, and sending communications. Pre-built integrations and native connectors extend the range of systems agents can reach, while role-based access controls and approval gates define what they're permitted to do.</li>
+<li>Prod only: Governance and human oversight are not constraints on autonomous operations — they’re what make it sustainable. The goal is not to remove humans from the process but to concentrate their involvement where it adds the most value: consequential decisions, new situations, and continuous improvement of the workflows themselves.</li>
+<li>Prod only: Most organizations still begin with task automation — individual, repetitive steps handled by rules-based tools. From there, assisted workflows bring AI into the loop to support human decision-making without replacing it. Agentic workflows represent the next step: end-to-end process execution where orchestrated AI agents handle judgment, coordination, and exception resolution within governed boundaries.</li>
+<li>Prod only: That last point is important. Autonomous operations are not an outcome of deploying AI agents in isolation. They require the full capability stack described above — orchestration to coordinate execution, deterministic automation to carry out actions reliably, human-in-the-loop controls to maintain oversight where it counts, and governance infrastructure to ensure every action is traceable and compliant.</li>
+<li>Prod only: What happens:Before acting, the agent retrieves the information it needs—relevant policies, historical data, prior interactions, and the current system state. This ensures the agent isn't "guessing" but is operating on facts.</li>
+<li>Prod only: What happens:Once a task completes, outcomes are logged and evaluated against expected results. Where results fall outside defined parameters, exceptions are flagged for human review. Insights from that review feed back into the workflow — refining routing logic, decision criteria, agent instructions, and knowledge sources so the system handles similar situations better over time.</li>
+<li>Prod only: What happens:The agent activates the appropriate tools to execute tasks it has planned. The actual execution—updating records, processing transactions, triggering downstream workflows—is handled by a combination of deterministic components such as RPA, which perform these steps with precision, and non-deterministic operations. Where a step requires explicit approval, orchestration pauses the workflow and routes it to a human.</li>
+<li>Prod only: What happens:The workflow begins when an AI agent detects a trigger—an incoming document, a system event, a data change, or a user request expressed in natural language. In those cases, the agent first interprets the request and contextually disambiguates the user’s intent to determine whether to initiate a workflow. This highlights an important distinction from traditional automation, which typically relies on predefined intents or rigid triggers.  This is the starting condition that sets theagentic AIfor workflows in motion.</li>
+<li>Prod only: Why it matters:Agentic workflows adapt continuously to real-world conditions rather than executing the same fixed logic regardless of what's working. Feedback loops allow the system to improve through experience — adjusting to changing business rules, new data patterns, and edge cases as they emerge — while keeping adaptation deliberate and auditable through the orchestration layer rather than leaving it to the model.</li>
+<li>Prod only: Why it matters:Automatic initiation eliminates the delays and missed handoffs that come from relying on humans to spot and route incoming work. When triggers arrive without explicit instructions — an incoming document, an unstructured request, a data event requiring classification — the agent interprets intent before acting, which is what keeps everything downstream correctly directed.</li>
+<li>Prod only: Why it matters:This is where an agentic workflow moves beyond analysis and recommendation — the agent completes the task end to end, across systems, without requiring a human to act on its output. Approval gates and role-based permissions ensure that sensitive steps stay controlled without making humans a bottleneck for routine execution.</li>
+</ul>
+</div>
+<div class='section'>
+<h3>Links</h3>
+<p class='section-status pass'>Links match: no link differences.</p>
+</div>
+<div class='section'>
+<h3>Images</h3>
+<p class='section-status pass'>Images match: no image differences.</p>
+</div>
+</div>
+</div>
+<div class='footer'>
+Generated by UAT vs Prod QA Agent
+</div>
+</div></body></html>
