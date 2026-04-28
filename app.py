@@ -16,7 +16,7 @@ from email.mime.text import MIMEText
 logger = setup_logger(__name__)
 
 def send_email_report(recipient: str, results: list):
-    """Send QA comparison results via email."""
+    """Send QA comparison results via email with HTML report attached."""
     try:
         sender   = st.secrets["EMAIL_SENDER"]
         password = st.secrets["EMAIL_PASSWORD"]
@@ -24,10 +24,12 @@ def send_email_report(recipient: str, results: list):
         total  = len(results)
         passed = sum(1 for r in results if r.get("status") == "PASS")
         failed = total - passed
+        pass_rate = int((passed / total) * 100) if total else 0
 
-        rows = ""
+        # ── Build URL summary rows ─────────────────────────────────────
+        url_rows = ""
         for r in results:
-            ph           = r.get("page_health", {})
+            ph = r.get("page_health", {})
             total_issues = (
                 len(r.get("content_issues", [])) +
                 len(r.get("link_issues",    [])) +
@@ -36,63 +38,195 @@ def send_email_report(recipient: str, results: list):
                 len(ph.get("status_issues", [])) +
                 len(ph.get("ssl_issues",    []))
             )
-            status  = r.get("status", "N/A")
-            color   = "#34d399" if status == "PASS" else "#f87171"
-            rows   += f"""
+            status = r.get("status", "N/A")
+            status_color = "#34d399" if status == "PASS" else "#f87171"
+            status_bg    = "rgba(16,185,129,0.15)" if status == "PASS" else "rgba(239,68,68,0.15)"
+            status_icon  = "✅" if status == "PASS" else "❌"
+
+            url_rows += f"""
             <tr>
-                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{r.get("test_name", "N/A")}</td>
-                <td style="padding:8px; border-bottom:1px solid #1e2a3a; color:{color};"><b>{status}</b></td>
-                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{r.get("url_a", "N/A")}</td>
-                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{r.get("url_b", "N/A")}</td>
-                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{total_issues}</td>
+                <td style="padding:14px 16px; border-bottom:1px solid #1e2a3a;">
+                    <div style="font-weight:600; color:#f1f5f9; font-size:13px; margin-bottom:6px;">
+                        {r.get("test_name", "N/A")}
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <span style="background:#1e2a3a; color:#60a5fa; font-size:11px; padding:3px 8px; border-radius:4px; font-family:monospace;">
+                            🔵 {r.get("url_a", "N/A")}
+                        </span>
+                        <span style="color:#4b5563; font-size:11px; padding:3px 0;">vs</span>
+                        <span style="background:#1e2a3a; color:#34d399; font-size:11px; padding:3px 8px; border-radius:4px; font-family:monospace;">
+                            🟢 {r.get("url_b", "N/A")}
+                        </span>
+                    </div>
+                </td>
+                <td style="padding:14px 16px; border-bottom:1px solid #1e2a3a; text-align:center; white-space:nowrap;">
+                    <span style="background:{status_bg}; color:{status_color}; font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px;">
+                        {status_icon} {status}
+                    </span>
+                </td>
+                <td style="padding:14px 16px; border-bottom:1px solid #1e2a3a; text-align:center;">
+                    <span style="color:{'#f87171' if total_issues > 0 else '#34d399'}; font-size:20px; font-weight:700;">
+                        {total_issues}
+                    </span>
+                    <div style="color:#4b5563; font-size:10px; margin-top:2px;">issues</div>
+                </td>
             </tr>
             """
 
+        # ── Overall verdict ────────────────────────────────────────────
+        if failed == 0:
+            verdict_color = "#34d399"
+            verdict_bg    = "rgba(16,185,129,0.10)"
+            verdict_border= "#10b981"
+            verdict_icon  = "✅"
+            verdict_text  = "All Pages Passed"
+            verdict_sub   = f"All {total} comparison(s) completed successfully with no issues detected."
+        else:
+            verdict_color = "#f87171"
+            verdict_bg    = "rgba(239,68,68,0.10)"
+            verdict_border= "#ef4444"
+            verdict_icon  = "❌"
+            verdict_text  = f"{failed} Page(s) Failed"
+            verdict_sub   = f"{failed} out of {total} comparison(s) found issues that require attention."
+
         html_body = f"""
+        <!DOCTYPE html>
         <html>
-        <body style="font-family:Arial,sans-serif; background:#0d1117; color:#e2e8f0; padding:24px;">
-            <div style="max-width:800px; margin:0 auto;">
-                <h2 style="color:#f1f5f9;">🔍 QA Comparison Report</h2>
-                <div style="display:flex; gap:16px; margin-bottom:24px;">
-                    <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px 24px; text-align:center;">
-                        <div style="font-size:28px; font-weight:700; color:#f1f5f9;">{total}</div>
-                        <div style="font-size:12px; color:#6b7280;">Total</div>
+        <body style="margin:0; padding:0; background:#0a0d14; font-family:'Segoe UI', Arial, sans-serif;">
+
+            <div style="max-width:680px; margin:0 auto; padding:32px 16px;">
+
+                <!-- Header -->
+                <div style="text-align:center; margin-bottom:32px;">
+                    <div style="font-size:28px; margin-bottom:8px;">🔍</div>
+                    <h1 style="margin:0; font-size:22px; font-weight:700; color:#f1f5f9; letter-spacing:-0.02em;">
+                        QA Comparison Agent
+                    </h1>
+                    <p style="margin:6px 0 0; font-size:13px; color:#6b7280;">
+                        Report generated on {datetime.now().strftime("%B %d, %Y at %H:%M")}
+                    </p>
+                </div>
+
+                <!-- Verdict Banner -->
+                <div style="background:{verdict_bg}; border:1px solid {verdict_border}; border-radius:12px; padding:20px 24px; margin-bottom:24px; text-align:center;">
+                    <div style="font-size:32px; margin-bottom:6px;">{verdict_icon}</div>
+                    <div style="font-size:18px; font-weight:700; color:{verdict_color}; margin-bottom:6px;">
+                        {verdict_text}
                     </div>
-                    <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px 24px; text-align:center;">
-                        <div style="font-size:28px; font-weight:700; color:#34d399;">{passed}</div>
-                        <div style="font-size:12px; color:#6b7280;">Passed</div>
-                    </div>
-                    <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px 24px; text-align:center;">
-                        <div style="font-size:28px; font-weight:700; color:#f87171;">{failed}</div>
-                        <div style="font-size:12px; color:#6b7280;">Failed</div>
+                    <div style="font-size:13px; color:#94a3b8;">
+                        {verdict_sub}
                     </div>
                 </div>
-                <table style="width:100%; border-collapse:collapse; background:#161b27; border:1px solid #1e2a3a; border-radius:10px;">
-                    <thead>
-                        <tr style="background:#1e2a3a;">
-                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">Test Name</th>
-                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">Status</th>
-                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">URL A</th>
-                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">URL B</th>
-                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">Issues</th>
-                        </tr>
-                    </thead>
-                    <tbody>{rows}</tbody>
+
+                <!-- Metric Cards -->
+                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+                    <tr>
+                        <td style="padding:0 6px 0 0;">
+                            <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px; text-align:center;">
+                                <div style="font-size:26px; font-weight:700; color:#f1f5f9;">{total}</div>
+                                <div style="font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Total</div>
+                            </div>
+                        </td>
+                        <td style="padding:0 6px;">
+                            <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px; text-align:center;">
+                                <div style="font-size:26px; font-weight:700; color:#34d399;">{passed}</div>
+                                <div style="font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Passed</div>
+                            </div>
+                        </td>
+                        <td style="padding:0 6px;">
+                            <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px; text-align:center;">
+                                <div style="font-size:26px; font-weight:700; color:#f87171;">{failed}</div>
+                                <div style="font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Failed</div>
+                            </div>
+                        </td>
+                        <td style="padding:0 0 0 6px;">
+                            <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px; text-align:center;">
+                                <div style="font-size:26px; font-weight:700; color:#60a5fa;">{pass_rate}%</div>
+                                <div style="font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Pass Rate</div>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
-                <p style="color:#4b5563; font-size:12px; margin-top:24px;">
-                    Sent by QA Comparison Agent · {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-                </p>
+
+                <!-- URL Comparison Table -->
+                <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:12px; overflow:hidden; margin-bottom:24px;">
+                    <div style="padding:14px 16px; border-bottom:1px solid #1e2a3a; background:#1a2235;">
+                        <span style="font-size:12px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.08em;">
+                            Comparison Results
+                        </span>
+                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                        <thead>
+                            <tr style="background:#1e2a3a;">
+                                <th style="padding:10px 16px; text-align:left; color:#64748b; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">
+                                    Test / URLs
+                                </th>
+                                <th style="padding:10px 16px; text-align:center; color:#64748b; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">
+                                    Status
+                                </th>
+                                <th style="padding:10px 16px; text-align:center; color:#64748b; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">
+                                    Issues
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {url_rows}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Attached Report Note -->
+                <div style="background:rgba(29,78,216,0.10); border:1px solid rgba(59,130,246,0.25); border-radius:10px; padding:14px 18px; margin-bottom:24px; display:flex; align-items:center; gap:12px;">
+                    <span style="font-size:20px;">📎</span>
+                    <div>
+                        <div style="font-size:13px; font-weight:600; color:#93c5fd; margin-bottom:2px;">
+                            Full Report Attached
+                        </div>
+                        <div style="font-size:12px; color:#6b7280;">
+                            Open <strong style="color:#94a3b8;">qa_report.html</strong> in your browser for the complete detailed report with all issues.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div style="text-align:center; padding-top:16px; border-top:1px solid #1e2130;">
+                    <p style="font-size:11px; color:#374151; margin:0;">
+                        Sent by <strong style="color:#4b5563;">QA Comparison Agent</strong> · {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                    </p>
+                </div>
+
             </div>
         </body>
         </html>
         """
 
-        msg            = MIMEMultipart("alternative")
-        msg["Subject"] = f"QA Report — {passed}/{total} Passed · {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+        # ── Build HTML report as attachment ────────────────────────────
+        report_path = st.session_state.get("report_path")
+
+        msg = MIMEMultipart("mixed")
+        msg["Subject"] = f"QA Comparison Agent Report — {passed}/{total} Passed · {datetime.now().strftime('%Y-%m-%d %H:%M')}"
         msg["From"]    = sender
         msg["To"]      = recipient
+
+        # Attach HTML body
         msg.attach(MIMEText(html_body, "html"))
 
+        # Attach HTML report file
+        if report_path and os.path.exists(report_path):
+            from email.mime.base import MIMEBase
+            from email import encoders
+            with open(report_path, "rb") as f:
+                attachment = MIMEBase("text", "html")
+                attachment.set_payload(f.read())
+                encoders.encode_base64(attachment)
+                attachment.add_header(
+                    "Content-Disposition",
+                    "attachment",
+                    filename=f"qa_report_{datetime.now().strftime('%Y%m%d_%H%M')}.html"
+                )
+                msg.attach(attachment)
+
+        # ── Send ───────────────────────────────────────────────────────
         with smtplib.SMTP("smtp.office365.com", 587, timeout=30) as server:
             server.ehlo("smtp.office365.com")
             server.starttls()
@@ -105,7 +239,6 @@ def send_email_report(recipient: str, results: list):
     except Exception as e:
         logger.error(f"Email error: {e}")
         return False, str(e)
-
 
 # ─── Page Config ───────────────────────────────────────────────────────────────
 st.set_page_config(
