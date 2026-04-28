@@ -284,3 +284,67 @@ class QAComparisonAgent:
         issues += self._check_broken_links(set_a | set_b)
 
         return issues
+
+    # ── Helper: extract domain ───────────────────────────────────────────────
+    def _extract_domain(self, url: str) -> str:
+        """Extract domain from URL."""
+        parsed = urlparse(url)
+        return parsed.netloc or ""
+
+    # ── Helper: broken links ────────────────────────────────────────────────
+    def _check_broken_links(self, links: set) -> List[str]:
+        """Check for broken links (basic check)."""
+        issues = []
+        # This would require actual HTTP requests; for now, return empty
+        return issues
+
+    # ── Helper: cross-domain check ──────────────────────────────────────────
+    def _cross_domain_check(self, links_a: List[str], links_b: List[str], domain_a: str, domain_b: str) -> List[str]:
+        """Check for cross-domain links."""
+        issues = []
+        for link in links_a:
+            if domain_b in link and domain_a not in link:
+                issues.append(f"[CROSS-DOMAIN] URL A contains link to B's domain: {link}")
+        for link in links_b:
+            if domain_a in link and domain_b not in link:
+                issues.append(f"[CROSS-DOMAIN] URL B contains link to A's domain: {link}")
+        return issues
+
+    # ── Helper: environment keyword check ───────────────────────────────────
+    def _env_keyword_check(self, links: List[str], page_label: str = "") -> List[str]:
+        """Check for environment keywords in links."""
+        issues = []
+        for link in links:
+            for keyword in ENV_KEYWORDS:
+                if keyword.lower() in link.lower():
+                    issues.append(f"[ENV KEYWORD] {page_label} link contains '{keyword}': {link}")
+                    break
+        return issues
+
+    # ── Helper: find text differences ───────────────────────────────────────
+    def _find_text_differences(self, text_a: List[str], text_b: List[str]) -> List[str]:
+        """Find differences in page text."""
+        issues = []
+        set_a = set(text_a)
+        set_b = set(text_b)
+        
+        for text in sorted(set_a - set_b):
+            issues.append({"side": "A", "text": f"Text only on URL A: {text[:100]}"})
+        for text in sorted(set_b - set_a):
+            issues.append({"side": "B", "text": f"Text only on URL B: {text[:100]}"})
+        
+        return issues
+
+    # ── Helper: compare lists ───────────────────────────────────────────────
+    def _compare_lists(self, items_a: List[str], items_b: List[str], label: str = "item", domain_a: str = "", domain_b: str = "") -> List[str]:
+        """Compare two lists of items."""
+        issues = []
+        set_a = set(items_a)
+        set_b = set(items_b)
+        
+        for item in sorted(set_a - set_b):
+            issues.append(f"[{label.upper()} MISSING ON B] {item}")
+        for item in sorted(set_b - set_a):
+            issues.append(f"[{label.upper()} EXTRA ON B] {item}")
+        
+        return issues
