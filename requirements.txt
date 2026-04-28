@@ -1,3 +1,4 @@
+python-dotenv
 playwright
 beautifulsoup4
 openpyxl
