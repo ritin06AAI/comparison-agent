@@ -513,6 +513,11 @@ if "results" not in st.session_state:
 if "report_path" not in st.session_state:
     st.session_state.report_path = None
 
+# ─── Output folder (use system temp dir — works on Streamlit Cloud) ──────────
+import tempfile
+output_folder = os.path.join(tempfile.gettempdir(), "qa_comparison_reports")
+os.makedirs(output_folder, exist_ok=True)
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SIDEBAR
@@ -558,7 +563,7 @@ with st.sidebar:
         auth_user = st.text_input("Username", placeholder="user@domain.com")
         auth_pass = st.text_input("Password", type="password", placeholder="••••••••")
 
-    st.markdown("---")
+    
 
  
     st.markdown("---")
