@@ -14,7 +14,7 @@ logger = setup_logger(__name__)
 
 # Global environment keywords 
 ENV_KEYWORDS = ["uat", "staging", "stage", "dev", "development", "test",
-                "qa", "sandbox", "preprod", "pre-prod", "sit", "ht", "int"]
+                "qa", "sandbox", "preprod", "pre-prod"]
 
 
 class QAComparisonAgent:
