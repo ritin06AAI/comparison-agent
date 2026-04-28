@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-
+from datetime import datetime
 import os
 import tempfile
 import pandas as pd
@@ -11,6 +11,108 @@ from utils.logger import setup_logger
 from utils.excel_parser import ExcelParser
 from agents.qa_agent import QAComparisonAgent
 from reporting.html_report_generator import HtmlReportGenerator
+
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+def send_email_report(recipient: str, results: list):
+    """Send QA comparison results via email."""
+    try:
+        sender   = st.secrets["EMAIL_SENDER"]
+        password = st.secrets["EMAIL_PASSWORD"]
+
+        # ── Build email body ───────────────────────────────────────────
+        total  = len(results)
+        passed = sum(1 for r in results if r.get("status") == "PASS")
+        failed = total - passed
+
+        rows = ""
+        for r in results:
+            ph           = r.get("page_health", {})
+            total_issues = (
+                len(r.get("content_issues", [])) +
+                len(r.get("link_issues",    [])) +
+                len(r.get("image_issues",   [])) +
+                len(ph.get("title_issues",  [])) +
+                len(ph.get("status_issues", [])) +
+                len(ph.get("ssl_issues",    []))
+            )
+            status  = r.get("status", "N/A")
+            color   = "#34d399" if status == "PASS" else "#f87171"
+            rows   += f"""
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{r.get("test_name", "N/A")}</td>
+                <td style="padding:8px; border-bottom:1px solid #1e2a3a; color:{color};"><b>{status}</b></td>
+                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{r.get("url_a", "N/A")}</td>
+                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{r.get("url_b", "N/A")}</td>
+                <td style="padding:8px; border-bottom:1px solid #1e2a3a;">{total_issues}</td>
+            </tr>
+            """
+
+        html_body = f"""
+        <html>
+        <body style="font-family:Arial,sans-serif; background:#0d1117; color:#e2e8f0; padding:24px;">
+            <div style="max-width:800px; margin:0 auto;">
+
+                <h2 style="color:#f1f5f9;">🔍 QA Comparison Report</h2>
+
+                <div style="display:flex; gap:16px; margin-bottom:24px;">
+                    <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px 24px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:#f1f5f9;">{total}</div>
+                        <div style="font-size:12px; color:#6b7280;">Total</div>
+                    </div>
+                    <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px 24px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:#34d399;">{passed}</div>
+                        <div style="font-size:12px; color:#6b7280;">Passed</div>
+                    </div>
+                    <div style="background:#161b27; border:1px solid #1e2a3a; border-radius:10px; padding:16px 24px; text-align:center;">
+                        <div style="font-size:28px; font-weight:700; color:#f87171;">{failed}</div>
+                        <div style="font-size:12px; color:#6b7280;">Failed</div>
+                    </div>
+                </div>
+
+                <table style="width:100%; border-collapse:collapse; background:#161b27; border:1px solid #1e2a3a; border-radius:10px;">
+                    <thead>
+                        <tr style="background:#1e2a3a;">
+                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">Test Name</th>
+                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">Status</th>
+                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">URL A</th>
+                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">URL B</th>
+                            <th style="padding:10px; text-align:left; color:#94a3b8; font-size:12px;">Issues</th>
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
+
+                <p style="color:#4b5563; font-size:12px; margin-top:24px;">
+                    Sent by QA Comparison Agent · {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                </p>
+            </div>
+        </body>
+        </html>
+        """
+
+        # ── Send email ─────────────────────────────────────────────────
+        msg                    = MIMEMultipart("alternative")
+        msg["Subject"]         = f"QA Report — {passed}/{total} Passed · {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+        msg["From"]            = sender
+        msg["To"]              = recipient
+        msg.attach(MIMEText(html_body, "html"))
+
+        # ADD THIS (Outlook):
+        with smtplib.SMTP("smtp.office365.com", 587) as server:
+            server.ehlo()
+            server.starttls()
+            server.login(sender, password)
+            server.sendmail(sender, recipient, msg.as_string())
+        return True, "Email sent successfully!"
+
+    except Exception as e:
+        logger.error(f"Email error: {e}")
+        return False, f"Failed to send email: {e}"
+
+
 
 logger = setup_logger(__name__)
 
@@ -512,6 +614,8 @@ if "results" not in st.session_state:
     st.session_state.results = []
 if "report_path" not in st.session_state:
     st.session_state.report_path = None
+if "history" not in st.session_state:
+    st.session_state.history = []  # ← ADD THIS    
 
 # ─── Output folder (use system temp dir — works on Streamlit Cloud) ──────────
 import tempfile
@@ -534,6 +638,56 @@ with st.sidebar:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
+
+    
+
+    # ── Email Notification ────────────────────────────────────────────────
+    st.markdown('<div class="nav-section">Email Report</div>', unsafe_allow_html=True)
+    send_email = st.selectbox(
+        "Send email after comparison?",
+        options=["No", "Yes"],
+        label_visibility="collapsed"
+    )
+    if send_email == "Yes":
+        email_recipient = st.text_input(
+            "Recipient email",
+            placeholder="team@yourcompany.com",
+            label_visibility="collapsed"
+        )
+    else:
+        email_recipient = None
+
+    st.markdown("---")
+
+    # ── History ───────────────────────────────────────────────────────────
+# ── Save to history ────────────────────────────────────
+    for r in results:
+                    ph = r.get("page_health", {})
+                    total_issues = (
+                        len(r.get("content_issues", [])) +
+                        len(r.get("link_issues",    [])) +
+                        len(r.get("image_issues",   [])) +
+                        len(ph.get("title_issues",  [])) +
+                        len(ph.get("status_issues", [])) +
+                        len(ph.get("ssl_issues",    []))
+                    )
+                    st.session_state.history.append({
+                        "datetime":     datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "test_name":    r.get("test_name", "N/A"),
+                        "url_a":        r.get("url_a", "N/A"),
+                        "url_b":        r.get("url_b", "N/A"),
+                        "status":       r.get("status", "N/A"),
+                        "total_issues": total_issues,
+                    })
+
+                # ── Send email if enabled ──────────────────────────────
+    if send_email == "Yes" and email_recipient:
+                    with st.spinner("Sending email report…"):
+                        success, msg = send_email_report(email_recipient, results)
+                        if success:
+                            st.success(f"📧 {msg}")
+                        else:
+                            st.error(f"📧 {msg}")
 
     # Mode selector
     st.markdown('<div class="nav-section">Mode</div>', unsafe_allow_html=True)
@@ -642,7 +796,7 @@ if st.session_state.mode == "single":
             test_cases[0]["AUTH_TYPE"] = "basic"
             test_cases[0]["CREDENTIALS"] = f"{auth_user}:{auth_pass}"
 
-        os.makedirs(output_folder, exist_ok=True)
+            os.makedirs(output_folder, exist_ok=True)
         screenshot_dir = None
         if check_shots:
             screenshot_dir = os.path.join(output_folder, "screenshots")
@@ -660,12 +814,32 @@ if st.session_state.mode == "single":
 
                 st.session_state.results = results
                 st.session_state.report_path = HtmlReportGenerator().generate(results, output_folder)
+
+                # ── Save to history ────────────────────────────────────
+                for r in results:
+                    ph = r.get("page_health", {})
+                    total_issues = (
+                        len(r.get("content_issues", [])) +
+                        len(r.get("link_issues", [])) +
+                        len(r.get("image_issues", [])) +
+                        len(ph.get("title_issues", [])) +
+                        len(ph.get("status_issues", [])) +
+                        len(ph.get("ssl_issues", []))
+                    )
+                    st.session_state.history.append({
+                        "datetime":     datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "test_name":    r.get("test_name", "N/A"),
+                        "url_a":        r.get("url_a", "N/A"),
+                        "url_b":        r.get("url_b", "N/A"),
+                        "status":       r.get("status", "N/A"),
+                        "total_issues": total_issues,
+                    })
+
                 logger.info(f"Report at: {st.session_state.report_path}")
 
             except Exception as e:
                 st.error(f"Error: {e}")
                 logger.error(e)
-
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MODE: BATCH UPLOAD
