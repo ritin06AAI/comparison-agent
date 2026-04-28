@@ -704,6 +704,12 @@ with st.sidebar:
             placeholder="team@yourcompany.com",
             label_visibility="collapsed"
         )
+        # ── Debug: check secrets are loading ──────────────────────────
+        try:
+            sender = st.secrets["EMAIL_SENDER"]
+            st.caption(f"✅ Sending from: {sender}")
+        except Exception as e:
+            st.error(f"❌ Secret not found: {e}")
     else:
         email_recipient = None
 
