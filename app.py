@@ -604,6 +604,27 @@ st.markdown("""
         background: #0d1117;
     }
     .stApp > * { color: #e2e8f0; }
+            
+    /* ── Selectbox fix ── */
+    div[data-testid="stSelectbox"] > div > div {
+        background: #0d1117 !important;
+        border: 1px solid #2d3748 !important;
+        border-radius: 8px !important;
+        color: #e2e8f0 !important;
+    }
+    div[data-testid="stSelectbox"] > div > div > div {
+        color: #e2e8f0 !important;
+    }
+    /* Selectbox dropdown options */
+    [data-baseweb="select"] * {
+        background: #0d1117 !important;
+        color: #e2e8f0 !important;
+    }
+
+    /* ── Remove "Press Enter to apply" tooltip on text input ── */
+    div[data-testid="stTextInput"] div[data-testid="InputInstructions"] {
+        display: none !important;
+    }        
 </style>
 """, unsafe_allow_html=True)
 
