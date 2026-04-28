@@ -553,6 +553,7 @@ with st.sidebar:
     check_images   = st.toggle("Image diff",      value=True)
     check_shots    = st.toggle("Page screenshots",value=False)
     check_seo      = st.toggle("SEO meta tags",   value=False)
+    check_health   = st.toggle("Page Health",     value=True)
 
     st.markdown("---")
 
@@ -940,6 +941,58 @@ if results:
             else:
                 st.markdown('<div class="no-issue">✓ No image differences</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
+            # Page Health
+            ph = r.get("page_health", {})
+            if ph:
+                 st.markdown("#### Page Health")
+
+             # Status codes
+                 st.markdown('<div class="issue-section">', unsafe_allow_html=True)
+    st.markdown("**Status Codes**")
+    sa = ph.get("status_a", 0)
+    sb = ph.get("status_b", 0)
+    col1, col2 = st.columns(2)
+    with col1:
+        color = "#34d399" if sa == 200 else "#f87171"
+        st.markdown(f'<div class="issue-item-a">URL A — <strong style="color:{color}">{sa}</strong></div>', unsafe_allow_html=True)
+    with col2:
+        color = "#34d399" if sb == 200 else "#f87171"
+        st.markdown(f'<div class="issue-item-b">URL B — <strong style="color:{color}">{sb}</strong></div>', unsafe_allow_html=True)
+    for issue in ph.get("status_issues", []):
+        st.markdown(f'<div class="issue-item-warn">{issue}</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Page titles
+    st.markdown('<div class="issue-section">', unsafe_allow_html=True)
+    st.markdown("**Page Titles**")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown(f'<div class="issue-item-a">URL A — {ph.get("title_a", "N/A")}</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown(f'<div class="issue-item-b">URL B — {ph.get("title_b", "N/A")}</div>', unsafe_allow_html=True)
+    for issue in ph.get("title_issues", []):
+        st.markdown(f'<div class="issue-item-warn">{issue}</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # SSL
+    st.markdown('<div class="issue-section">', unsafe_allow_html=True)
+    st.markdown("**SSL Certificates**")
+    ssl_a = ph.get("ssl_a", {})
+    ssl_b = ph.get("ssl_b", {})
+    col1, col2 = st.columns(2)
+    with col1:
+        if ssl_a.get("valid"):
+            st.markdown(f'<div class="issue-item-a">URL A — ✅ Valid · Expires {ssl_a.get("expires")} ({ssl_a.get("days_left")} days)</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(f'<div class="issue-item-warn">URL A — ❌ {ssl_a.get("reason")}</div>', unsafe_allow_html=True)
+    with col2:
+        if ssl_b.get("valid"):
+            st.markdown(f'<div class="issue-item-b">URL B — ✅ Valid · Expires {ssl_b.get("expires")} ({ssl_b.get("days_left")} days)</div>', unsafe_allow_html=True)
+        else:
+            st.markdown(f'<div class="issue-item-warn">URL B — ❌ {ssl_b.get("reason")}</div>', unsafe_allow_html=True)
+    for issue in ph.get("ssl_issues", []):
+        st.markdown(f'<div class="issue-item-warn">{issue}</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ─── Empty state ───────────────────────────────────────────────────────────────
