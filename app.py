@@ -639,7 +639,36 @@ with st.sidebar:
 
     st.markdown("---")
 
-    
+    # Mode selector
+    st.markdown('<div class="nav-section">Mode</div>', unsafe_allow_html=True)
+    mode = st.radio(
+        "Comparison mode",
+        options=["Single URL Pair", "Batch Upload (Excel)"],
+        index=0 if st.session_state.mode == "single" else 1,
+        label_visibility="collapsed"
+    )
+    st.session_state.mode = "single" if mode == "Single URL Pair" else "batch"
+
+    st.markdown("---")
+
+    # Check options
+    st.markdown('<div class="nav-section">What to compare</div>', unsafe_allow_html=True)
+    check_content = st.toggle("Content diff",   value=True)
+    check_links   = st.toggle("Link Audit",     value=True)
+    check_images  = st.toggle("Image diff",     value=True)
+    check_health  = st.toggle("Page Health",    value=True)
+    check_shots   = st.toggle("Screenshots",    value=False)
+
+    st.markdown("---")
+
+    # Auth
+    st.markdown('<div class="nav-section">Authentication</div>', unsafe_allow_html=True)
+    requires_auth = st.toggle("Requires auth", value=False)
+    if requires_auth:
+        auth_user = st.text_input("Username", placeholder="user@domain.com")
+        auth_pass = st.text_input("Password", type="password", placeholder="••••••••")
+
+    st.markdown("---")
 
     # ── Email Notification ────────────────────────────────────────────────
     st.markdown('<div class="nav-section">Email Report</div>', unsafe_allow_html=True)
@@ -660,90 +689,42 @@ with st.sidebar:
     st.markdown("---")
 
     # ── History ───────────────────────────────────────────────────────────
-# ── Save to history ────────────────────────────────────
-    for r in results:
-                    ph = r.get("page_health", {})
-                    total_issues = (
-                        len(r.get("content_issues", [])) +
-                        len(r.get("link_issues",    [])) +
-                        len(r.get("image_issues",   [])) +
-                        len(ph.get("title_issues",  [])) +
-                        len(ph.get("status_issues", [])) +
-                        len(ph.get("ssl_issues",    []))
-                    )
-                    st.session_state.history.append({
-                        "datetime":     datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "test_name":    r.get("test_name", "N/A"),
-                        "url_a":        r.get("url_a", "N/A"),
-                        "url_b":        r.get("url_b", "N/A"),
-                        "status":       r.get("status", "N/A"),
-                        "total_issues": total_issues,
-                    })
+    st.markdown('<div class="nav-section">Recent History</div>', unsafe_allow_html=True)
 
-                # ── Send email if enabled ──────────────────────────────
-    if send_email == "Yes" and email_recipient:
-                    with st.spinner("Sending email report…"):
-                        success, msg = send_email_report(email_recipient, results)
-                        if success:
-                            st.success(f"📧 {msg}")
-                        else:
-                            st.error(f"📧 {msg}")
+    if not st.session_state.history:
+        st.caption("No comparisons run yet.")
+    else:
+        recent = list(reversed(st.session_state.history))[:5]
+        for h in recent:
+            icon   = "✅" if h["status"] == "PASS" else "❌"
+            name   = h["test_name"][:22] + "…" if len(h["test_name"]) > 22 else h["test_name"]
+            time   = h["datetime"].split(" ")[1]
+            issues = h["total_issues"]
+            st.markdown(f"""
+            <div style="
+                background:#0d1117;
+                border:1px solid #1e2a3a;
+                border-radius:8px;
+                padding:8px 10px;
+                margin-bottom:6px;
+                font-size:11px;
+            ">
+                <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+                    <span style="color:#f1f5f9; font-weight:600;">{icon} {name}</span>
+                    <span style="color:#4b5563;">{time}</span>
+                </div>
+                <div style="color:#6b7280;">
+                    {issues} issue(s) · {h["status"]}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
-    # Mode selector
-    st.markdown('<div class="nav-section">Mode</div>', unsafe_allow_html=True)
-    mode = st.radio(
-        "Comparison mode",
-        options=["Single URL Pair", "Batch Upload (Excel)"],
-        index=0 if st.session_state.mode == "single" else 1,
-        label_visibility="collapsed"
-    )
-    st.session_state.mode = "single" if mode == "Single URL Pair" else "batch"
+        if st.button("🗑 Clear History", use_container_width=True):
+            st.session_state.history = []
+            st.rerun()
 
-    st.markdown("---")
-    # Check options
-    st.markdown('<div class="nav-section">What to compare</div>', unsafe_allow_html=True)
-    check_content  = st.toggle("Content diff",   value=True)
-    check_links    = st.toggle("Link Audit",  value=True)
-    check_images   = st.toggle("Image diff",      value=True)
-    check_health   = st.toggle("Page Health",     value=True)
-    check_shots    = st.toggle("Screenshots",     value=False)
-
-    st.markdown("---")
-
-    # Auth
-    st.markdown('<div class="nav-section">Authentication</div>', unsafe_allow_html=True)
-    requires_auth = st.toggle("Requires auth", value=False)
-    if requires_auth:
-        auth_user = st.text_input("Username", placeholder="user@domain.com")
-        auth_pass = st.text_input("Password", type="password", placeholder="••••••••")
-
-    
-
- 
     st.markdown("---")
     st.caption("© 2026 QA Comparison Agent")
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# MAIN AREA
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# ── Page header ────────────────────────────────────────────────────────────────
-header_col, badge_col = st.columns([5, 1])
-with header_col:
-    st.markdown("""
-    <div class="page-header">
-        <div>
-            <h1>🔍 QA Page Comparison Agent</h1>
-            <p>Detect content, link, and image differences between two URLs automatically.</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-with badge_col:
-    st.markdown('<br><span class="badge-ai">✦ AI-powered</span>', unsafe_allow_html=True)
-
-st.divider()
-
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # MODE: SINGLE URL PAIR
