@@ -596,7 +596,7 @@ if st.session_state.mode == "single":
     col_a, col_vs, col_b = st.columns([10, 1, 10])
 
     with col_a:
-        st.markdown('<div class="url-label-a"><span class="dot-a"></span> URL A — Source</div>', unsafe_allow_html=True)
+        st.markdown('<div class="url-label-a"><span class="dot-a"></span> URL A </div>', unsafe_allow_html=True)
         url_a = st.text_input(
             "url_a",
             placeholder="https://uat.example.com/page",
@@ -606,7 +606,7 @@ if st.session_state.mode == "single":
     with col_vs:
         st.markdown("<br><br><div class='vs-text'>VS</div>", unsafe_allow_html=True)
     with col_b:
-        st.markdown('<div class="url-label-b"><span class="dot-b"></span> URL B — Target</div>', unsafe_allow_html=True)
+        st.markdown('<div class="url-label-b"><span class="dot-b"></span> URL B </div>', unsafe_allow_html=True)
         url_b = st.text_input(
             "url_b",
             placeholder="https://prod.example.com/page",
