@@ -599,7 +599,7 @@ if st.session_state.mode == "single":
         st.markdown('<div class="url-label-a"><span class="dot-a"></span> URL A </div>', unsafe_allow_html=True)
         url_a = st.text_input(
             "url_a",
-            placeholder="https://uat.example.com/page",
+            placeholder="https://example.com/page",
             label_visibility="collapsed"
         )
 
@@ -609,7 +609,7 @@ if st.session_state.mode == "single":
         st.markdown('<div class="url-label-b"><span class="dot-b"></span> URL B </div>', unsafe_allow_html=True)
         url_b = st.text_input(
             "url_b",
-            placeholder="https://prod.example.com/page",
+            placeholder="https://example1.com/page",
             label_visibility="collapsed"
         )
 
