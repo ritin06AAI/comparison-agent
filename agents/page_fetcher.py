@@ -52,15 +52,14 @@ class PageFetcher:
 
             with sync_playwright() as p:
                 browser = p.chromium.launch(headless=self.headless)
-                context = browser.new_context()
 
                 # Basic auth via Playwright context
+                context_options = {}
                 if auth_type == "basic" and ":" in credentials:
                     user, pwd = credentials.split(":", 1)
-                    context = browser.new_context(
-                        http_credentials={"username": user, "password": pwd}
-                    )
+                    context_options["http_credentials"] = {"username": user, "password": pwd}
 
+                context = browser.new_context(**context_options)
                 page = context.new_page()
                 page.goto(url, timeout=int(self.timeout * 1000), wait_until="networkidle")
                 page.screenshot(path=save_path, full_page=True)

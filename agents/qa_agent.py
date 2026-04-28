@@ -316,7 +316,9 @@ class QAComparisonAgent:
         issues = []
         for link in links:
             for keyword in ENV_KEYWORDS:
-                if keyword.lower() in link.lower():
+                # Use word boundary to avoid false positives like "developers" containing "dev"
+                pattern = r'\b' + re.escape(keyword) + r'\b'
+                if re.search(pattern, link.lower()):
                     issues.append(f"[ENV KEYWORD] {page_label} link contains '{keyword}': {link}")
                     break
         return issues
