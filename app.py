@@ -101,9 +101,11 @@ def send_email_report(recipient: str, results: list):
         msg.attach(MIMEText(html_body, "html"))
 
         # ADD THIS (Outlook):
-        with smtplib.SMTP("smtp.office365.com", 587) as server:
-            server.ehlo()
+        with smtplib.SMTP("smtp.office365.com", 587, timeout=30) as server:
+            server.set_debuglevel(0)
+            server.ehlo("smtp.office365.com")
             server.starttls()
+            server.ehlo("smtp.office365.com")
             server.login(sender, password)
             server.sendmail(sender, recipient, msg.as_string())
         return True, "Email sent successfully!"
