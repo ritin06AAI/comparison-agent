@@ -551,8 +551,8 @@ with st.sidebar:
     check_content  = st.toggle("Content diff",   value=True)
     check_links    = st.toggle("Link Audit",  value=True)
     check_images   = st.toggle("Image diff",      value=True)
-    
     check_health   = st.toggle("Page Health",     value=True)
+    check_shots    = st.toggle("Screenshots",     value=False)
 
     st.markdown("---")
 
