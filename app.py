@@ -560,10 +560,7 @@ with st.sidebar:
 
     st.markdown("---")
 
-    # Output folder
-    st.markdown('<div class="nav-section">Output</div>', unsafe_allow_html=True)
-    output_folder = st.text_input("Report folder", value="reports")
-
+ 
     st.markdown("---")
     st.caption("© 2026 QA Comparison Agent")
 
