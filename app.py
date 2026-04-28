@@ -714,6 +714,12 @@ else:
                         st.warning("No test cases found. Check your Excel columns.")
                         st.stop()
 
+                    # ── Apply sidebar authentication to all test cases ──────────────────────
+                    if requires_auth:
+                        for tc in test_cases:
+                            tc["AUTH_TYPE"] = "basic"
+                            tc["CREDENTIALS"] = f"{auth_user}:{auth_pass}"
+
                     st.info(f"Found **{len(test_cases)}** test case(s). Running comparisons…")
 
                     agent = QAComparisonAgent()
