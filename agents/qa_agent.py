@@ -281,4 +281,6 @@ class QAComparisonAgent:
         for link in sorted(set_b - set_a):
             issues.append(f"[EXTRA ON B] Link exists on URL B but not on URL A: {link}")
 
-        issues += self._check_broken_links(set_
+        issues += self._check_broken_links(set_a | set_b)
+
+        return issues
