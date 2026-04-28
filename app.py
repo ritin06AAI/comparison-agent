@@ -544,7 +544,7 @@ with st.sidebar:
     # Check options
     st.markdown('<div class="nav-section">What to compare</div>', unsafe_allow_html=True)
     check_content  = st.toggle("Content diff",   value=True)
-    check_links    = st.toggle("Link integrity",  value=True)
+    check_links    = st.toggle("Link Audit",  value=True)
     check_images   = st.toggle("Image diff",      value=True)
     check_shots    = st.toggle("Page screenshots",value=False)
     check_seo      = st.toggle("SEO meta tags",   value=False)
@@ -917,7 +917,7 @@ if results:
             st.markdown('</div>', unsafe_allow_html=True)
 
             # Link issues
-            st.markdown("#### Link integrity")
+            st.markdown("#### Link Audit")
             st.markdown('<div class="issue-section">', unsafe_allow_html=True)
             if li:
                 for issue in li:
