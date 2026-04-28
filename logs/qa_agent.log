@@ -227,3 +227,22 @@ Call log:
 [2026-04-15 01:34:05] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/contact-us
 [2026-04-15 01:34:08] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/contact-us
 [2026-04-15 01:34:09] INFO     [__main__] Report at: reports\uat_vs_prod_report_20260415_013409.html
+[2026-04-17 19:26:58] INFO     [agents.qa_agent] Comparing: Single URL comparison
+[2026-04-17 19:26:58] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions?5tg1s
+[2026-04-17 19:27:03] ERROR    [agents.page_fetcher] Error fetching https://acquia-uat.automationanywhere.com/solutions?5tg1s via requests: 401 Client Error: Unauthorized for url: https://acquia-uat.automationanywhere.com/solutions?5tg1s
+[2026-04-17 19:27:03] ERROR    [__main__] 401 Client Error: Unauthorized for url: https://acquia-uat.automationanywhere.com/solutions?5tg1s
+[2026-04-17 19:28:47] INFO     [utils.excel_parser] Headers: ['URL_A', 'URL_B', 'AUTH_TYPE', 'CREDENTIALS', 'PRIORITY', 'TEST_NAME']
+[2026-04-17 19:28:47] INFO     [utils.excel_parser] Loaded test case: TC1
+[2026-04-17 19:28:47] INFO     [utils.excel_parser] Total test cases loaded: 1
+[2026-04-17 19:28:47] INFO     [agents.qa_agent] Comparing: TC1
+[2026-04-17 19:28:47] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions?5tg1s
+[2026-04-17 19:28:52] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions
+[2026-04-17 19:28:53] INFO     [__main__] Report at: reports\uat_vs_prod_report_20260417_192853.html
+[2026-04-17 19:50:38] INFO     [agents.qa_agent] Comparing: Single URL comparison
+[2026-04-17 19:50:38] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions?5tg1s
+[2026-04-17 19:50:44] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions
+[2026-04-17 19:50:46] INFO     [__main__] Report at: reports\uat_vs_prod_report_20260417_195046.html
+[2026-04-21 18:25:30] INFO     [agents.qa_agent] Comparing: Single URL comparison
+[2026-04-21 18:25:30] INFO     [agents.page_fetcher] Fetching URL (requests): https://acquia-uat.automationanywhere.com/solutions?dsdsd
+[2026-04-21 18:25:38] INFO     [agents.page_fetcher] Fetching URL (requests): https://www.automationanywhere.com/solutions
+[2026-04-21 18:25:42] INFO     [__main__] Report at: reports\uat_vs_prod_report_20260421_182542.html
