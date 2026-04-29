@@ -604,7 +604,41 @@ st.markdown("""
         background: #0d1117;
     }
     .stApp > * { color: #e2e8f0; }
-            
+
+    div[data-testid="stTextInput"] div[data-testid="InputInstructions"] {
+        display: none !important;
+    }
+
+    /* ── Fix 1: Selectbox Yes/No text visibility ── */
+    div[data-testid="stSelectbox"] span,
+    div[data-testid="stSelectbox"] div[class*="ValueContainer"] *,
+    div[data-testid="stSelectbox"] div[class*="singleValue"],
+    div[data-testid="stSelectbox"] div[class*="placeholder"] {
+        color: #e2e8f0 !important;
+        -webkit-text-fill-color: #e2e8f0 !important;
+        opacity: 1 !important;
+    }
+
+    /* ── Fix 2: Detailed issues radio button text ── */
+    div[data-testid="stRadio"] label p,
+    div[data-testid="stRadio"] label span,
+    div[data-testid="stRadio"] div {
+        color: #e2e8f0 !important;
+        -webkit-text-fill-color: #e2e8f0 !important;
+        opacity: 1 !important;
+    }
+
+    /* ── Fix 3: Expander heading text visibility ── */
+    div[data-testid="stExpander"] summary p,
+    div[data-testid="stExpander"] summary span,
+    div[data-testid="stExpander"] details summary,
+    div[data-testid="stExpander"] summary {
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+        opacity: 1 !important;
+        font-weight: 600 !important;
+    }
+               
             
 </style>
 """, unsafe_allow_html=True)
