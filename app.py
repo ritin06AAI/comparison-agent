@@ -1292,6 +1292,64 @@ if results:
                 for issue in ph.get("ssl_issues", []):
                     st.markdown(f'<div class="issue-item-warn">{issue}</div>', unsafe_allow_html=True)
                 st.markdown('</div>', unsafe_allow_html=True)
+                # ── Heading Structure ──────────────────────────────────
+                st.markdown('<div class="issue-section">', unsafe_allow_html=True)
+                st.markdown("**Heading Structure (H1 / H2 / H3)**")
+
+                heads_a = ph.get("headings_a", {})
+                heads_b = ph.get("headings_b", {})
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.markdown('<div style="font-size:11px;font-weight:700;color:#60a5fa;margin-bottom:6px;">URL A</div>', unsafe_allow_html=True)
+                    for level in ["h1", "h2", "h3"]:
+                        items = heads_a.get(level, [])
+                        if items:
+                            for h in items:
+                                st.markdown(f'<div class="issue-item-a"><strong>{level.upper()}</strong>: {h}</div>', unsafe_allow_html=True)
+                        else:
+                            st.markdown(f'<div style="font-size:11px;color:#4b5563;padding:2px 0;">No {level.upper()} found</div>', unsafe_allow_html=True)
+
+                with col2:
+                    st.markdown('<div style="font-size:11px;font-weight:700;color:#34d399;margin-bottom:6px;">URL B</div>', unsafe_allow_html=True)
+                    for level in ["h1", "h2", "h3"]:
+                        items = heads_b.get(level, [])
+                        if items:
+                            for h in items:
+                                st.markdown(f'<div class="issue-item-b"><strong>{level.upper()}</strong>: {h}</div>', unsafe_allow_html=True)
+                        else:
+                            st.markdown(f'<div style="font-size:11px;color:#4b5563;padding:2px 0;">No {level.upper()} found</div>', unsafe_allow_html=True)
+
+                heading_issues = ph.get("heading_issues", [])
+                if heading_issues:
+                    st.markdown('<div style="margin-top:8px;"></div>', unsafe_allow_html=True)
+                    for issue in heading_issues:
+                        st.markdown(f'<div class="issue-item-warn">{issue}</div>', unsafe_allow_html=True)
+                else:
+                    st.markdown('<div class="no-issue">✓ Heading structure matches</div>', unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+
+                # ── Canonical URL ──────────────────────────────────────
+                st.markdown('<div class="issue-section">', unsafe_allow_html=True)
+                st.markdown("**Canonical URL**")
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    canonical_a = ph.get("canonical_a", "N/A")
+                    color = "#f87171" if "No canonical" in canonical_a or "Error" in canonical_a else "#93c5fd"
+                    st.markdown(f'<div class="issue-item-a" style="color:{color};word-break:break-all;">URL A — {canonical_a}</div>', unsafe_allow_html=True)
+                with col2:
+                    canonical_b = ph.get("canonical_b", "N/A")
+                    color = "#f87171" if "No canonical" in canonical_b or "Error" in canonical_b else "#6ee7b7"
+                    st.markdown(f'<div class="issue-item-b" style="color:{color};word-break:break-all;">URL B — {canonical_b}</div>', unsafe_allow_html=True)
+
+                canonical_issues = ph.get("canonical_issues", [])
+                if canonical_issues:
+                    for issue in canonical_issues:
+                        st.markdown(f'<div class="issue-item-warn">{issue}</div>', unsafe_allow_html=True)
+                else:
+                    st.markdown('<div class="no-issue">✓ Canonical URLs look correct</div>', unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
 
 
 # ─── Empty state ───────────────────────────────────────────────────────────────

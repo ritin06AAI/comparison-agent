@@ -116,17 +116,23 @@ class QAComparisonAgent:
     # ════════════════════════════════════════════════════════════════════════
 
     def _check_page_health(self, url_a: str, url_b: str) -> Dict[str, Any]:
-        """Run Title, Status Code and SSL checks on both URLs."""
+        """Run Title, Status Code, SSL, Heading Structure and Canonical URL checks."""
         return {
-            "title_a":       self._get_page_title(url_a),
-            "title_b":       self._get_page_title(url_b),
-            "title_issues":  self._check_titles(url_a, url_b),
-            "status_a":      self._get_status_code(url_a),
-            "status_b":      self._get_status_code(url_b),
-            "status_issues": self._check_status_codes(url_a, url_b),
-            "ssl_a":         self._check_ssl(url_a),
-            "ssl_b":         self._check_ssl(url_b),
-            "ssl_issues":    self._check_ssl_issues(url_a, url_b),
+            "title_a":          self._get_page_title(url_a),
+            "title_b":          self._get_page_title(url_b),
+            "title_issues":     self._check_titles(url_a, url_b),
+            "status_a":         self._get_status_code(url_a),
+            "status_b":         self._get_status_code(url_b),
+            "status_issues":    self._check_status_codes(url_a, url_b),
+            "ssl_a":            self._check_ssl(url_a),
+            "ssl_b":            self._check_ssl(url_b),
+            "ssl_issues":       self._check_ssl_issues(url_a, url_b),
+            "headings_a":       self._get_headings(url_a),
+            "headings_b":       self._get_headings(url_b),
+            "heading_issues":   self._check_headings(url_a, url_b),
+            "canonical_a":      self._get_canonical(url_a),
+            "canonical_b":      self._get_canonical(url_b),
+            "canonical_issues": self._check_canonical(url_a, url_b),
         }
 
     # ── Page Title ───────────────────────────────────────────────────────────
@@ -282,6 +288,103 @@ class QAComparisonAgent:
             issues.append(f"[EXTRA ON B] Link exists on URL B but not on URL A: {link}")
 
         issues += self._check_broken_links(set_a | set_b)
+
+        return issues
+    
+    # ── Heading Structure ────────────────────────────────────────────────────
+
+    def _get_headings(self, url: str) -> Dict[str, List[str]]:
+        """Extract all H1, H2, H3 headings from a page."""
+        try:
+            from bs4 import BeautifulSoup
+            resp = requests.get(url, timeout=10, headers={"User-Agent": "QAAgent/1.0"})
+            soup = BeautifulSoup(resp.text, "html.parser")
+            return {
+                "h1": [h.get_text(strip=True) for h in soup.find_all("h1")],
+                "h2": [h.get_text(strip=True) for h in soup.find_all("h2")],
+                "h3": [h.get_text(strip=True) for h in soup.find_all("h3")],
+            }
+        except Exception as e:
+            logger.warning(f"Could not get headings for {url}: {e}")
+            return {"h1": [], "h2": [], "h3": []}
+
+    def _check_headings(self, url_a: str, url_b: str) -> List[str]:
+        """Compare H1/H2/H3 headings between two pages."""
+        issues    = []
+        heads_a   = self._get_headings(url_a)
+        heads_b   = self._get_headings(url_b)
+
+        for level in ["h1", "h2", "h3"]:
+            list_a = heads_a.get(level, [])
+            list_b = heads_b.get(level, [])
+            set_a  = set(list_a)
+            set_b  = set(list_b)
+
+            # Count mismatch
+            if len(list_a) != len(list_b):
+                issues.append(
+                    f"[{level.upper()} COUNT] URL A has {len(list_a)} {level.upper()}(s), "
+                    f"URL B has {len(list_b)} {level.upper()}(s)"
+                )
+
+            # Missing headings
+            for h in sorted(set_a - set_b):
+                issues.append(f"[{level.upper()} MISSING ON B] '{h}'")
+
+            # Extra headings
+            for h in sorted(set_b - set_a):
+                issues.append(f"[{level.upper()} EXTRA ON B] '{h}'")
+
+        return issues
+
+    # ── Canonical URL ────────────────────────────────────────────────────────
+
+    def _get_canonical(self, url: str) -> str:
+        """Extract canonical URL tag from a page."""
+        try:
+            from bs4 import BeautifulSoup
+            resp = requests.get(url, timeout=10, headers={"User-Agent": "QAAgent/1.0"})
+            soup = BeautifulSoup(resp.text, "html.parser")
+            tag  = soup.find("link", rel="canonical")
+            return tag["href"].strip() if tag and tag.get("href") else "No canonical tag found"
+        except Exception as e:
+            logger.warning(f"Could not get canonical for {url}: {e}")
+            return "Error fetching canonical"
+
+    def _check_canonical(self, url_a: str, url_b: str) -> List[str]:
+        """Check canonical tags on both pages."""
+        issues      = []
+        canonical_a = self._get_canonical(url_a)
+        canonical_b = self._get_canonical(url_b)
+        domain_a    = self._extract_domain(url_a)
+        domain_b    = self._extract_domain(url_b)
+
+        # Missing canonical
+        if canonical_a == "No canonical tag found":
+            issues.append(f"[CANONICAL] URL A is missing a canonical tag — bad for SEO")
+        if canonical_b == "No canonical tag found":
+            issues.append(f"[CANONICAL] URL B is missing a canonical tag — bad for SEO")
+
+        # Wrong domain in canonical
+        if canonical_b and canonical_b not in ("No canonical tag found", "Error fetching canonical"):
+            if domain_a and domain_a in canonical_b.lower():
+                issues.append(
+                    f"[CANONICAL] URL B (PROD) canonical points to UAT domain ({domain_a}): {canonical_b}"
+                )
+
+        if canonical_a and canonical_a not in ("No canonical tag found", "Error fetching canonical"):
+            if domain_b and domain_b in canonical_a.lower():
+                issues.append(
+                    f"[CANONICAL] URL A canonical points to PROD domain ({domain_b}): {canonical_a}"
+                )
+
+        # Canonical mismatch
+        if (canonical_a not in ("No canonical tag found", "Error fetching canonical") and
+            canonical_b not in ("No canonical tag found", "Error fetching canonical")):
+            if canonical_a != canonical_b:
+                issues.append(
+                    f"[CANONICAL MISMATCH] URL A: '{canonical_a}' vs URL B: '{canonical_b}'"
+                )
 
         return issues
 

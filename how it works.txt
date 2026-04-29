@@ -1,0 +1,26 @@
+How It Currently Works
+Content Diff
+
+Extracts all visible text from both pages using ContentAnalyzer
+Converts to a set and finds differences
+Flags text present on A but missing on B and vice versa
+⚠️ Limitation — it's a simple set comparison, not a smart diff. It doesn't detect moved or reworded text
+
+Link Audit
+
+Checks cross-domain links (UAT links in PROD)
+Detects ENV keywords (uat/staging/dev in hostnames)
+Finds missing/extra links between pages
+Checks broken links (404/500)
+
+Image Diff
+
+Compares image src URLs between both pages
+Flags cross-domain image sources
+⚠️ Limitation — doesn't compare actual image content visually
+
+Page Health
+
+Status codes (200/301/404/500)
+Page titles comparison
+SSL certificate validity and expiry
