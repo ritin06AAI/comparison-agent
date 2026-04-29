@@ -351,8 +351,35 @@ class QAComparisonAgent:
         except Exception as e:
             logger.warning(f"Could not get canonical for {url}: {e}")
             return "Error fetching canonical"
+        
+        
+
+    def _check_headings(self, url_a: str, url_b: str) -> List[str]:
+        """Compare H1/H2/H3 headings between two pages."""
+        issues  = []
+        heads_a = self._get_headings(url_a)
+        heads_b = self._get_headings(url_b)
+
+        for level in ["h1", "h2", "h3"]:
+            list_a = heads_a.get(level, [])
+            list_b = heads_b.get(level, [])
+            set_a  = set(list_a)
+            set_b  = set(list_b)
+
+            if len(list_a) != len(list_b):
+                issues.append(
+                    f"[{level.upper()} COUNT] URL A has {len(list_a)} {level.upper()}(s), "
+                    f"URL B has {len(list_b)} {level.upper()}(s)"
+                )
+            for h in sorted(set_a - set_b):
+                issues.append(f"[{level.upper()} MISSING ON B] '{h}'")
+            for h in sorted(set_b - set_a):
+                issues.append(f"[{level.upper()} EXTRA ON B] '{h}'")
+
+        return issues
 
     def _check_canonical(self, url_a: str, url_b: str) -> List[str]:
+        
         """Check canonical tags on both pages."""
         issues      = []
         canonical_a = self._get_canonical(url_a)
