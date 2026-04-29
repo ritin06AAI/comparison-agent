@@ -294,59 +294,60 @@ class QAComparisonAgent:
     # ── Heading Structure ────────────────────────────────────────────────────
 
     def _get_headings(self, url: str) -> Dict[str, List[str]]:
-        """Extract all H1, H2, H3 headings from a page."""
+        """Extract H1/H2/H3 - tries Playwright first, falls back to requests."""
         try:
             from bs4 import BeautifulSoup
-            resp = requests.get(url, timeout=10, headers={"User-Agent": "QAAgent/1.0"})
+
+            # ── Try Playwright first ───────────────────────────────────
+            html = self.fetcher.fetch_html(url)
+            if html:
+                soup = BeautifulSoup(html, "html.parser")
+                return {
+                    "h1": [h.get_text(strip=True) for h in soup.find_all("h1")],
+                    "h2": [h.get_text(strip=True) for h in soup.find_all("h2")],
+                    "h3": [h.get_text(strip=True) for h in soup.find_all("h3")],
+                }
+
+            # ── Fallback: requests ─────────────────────────────────────
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"
+            }
+            resp = requests.get(url, timeout=15, headers=headers)
             soup = BeautifulSoup(resp.text, "html.parser")
             return {
                 "h1": [h.get_text(strip=True) for h in soup.find_all("h1")],
                 "h2": [h.get_text(strip=True) for h in soup.find_all("h2")],
                 "h3": [h.get_text(strip=True) for h in soup.find_all("h3")],
             }
+
         except Exception as e:
             logger.warning(f"Could not get headings for {url}: {e}")
             return {"h1": [], "h2": [], "h3": []}
 
-    def _check_headings(self, url_a: str, url_b: str) -> List[str]:
-        """Compare H1/H2/H3 headings between two pages."""
-        issues    = []
-        heads_a   = self._get_headings(url_a)
-        heads_b   = self._get_headings(url_b)
-
-        for level in ["h1", "h2", "h3"]:
-            list_a = heads_a.get(level, [])
-            list_b = heads_b.get(level, [])
-            set_a  = set(list_a)
-            set_b  = set(list_b)
-
-            # Count mismatch
-            if len(list_a) != len(list_b):
-                issues.append(
-                    f"[{level.upper()} COUNT] URL A has {len(list_a)} {level.upper()}(s), "
-                    f"URL B has {len(list_b)} {level.upper()}(s)"
-                )
-
-            # Missing headings
-            for h in sorted(set_a - set_b):
-                issues.append(f"[{level.upper()} MISSING ON B] '{h}'")
-
-            # Extra headings
-            for h in sorted(set_b - set_a):
-                issues.append(f"[{level.upper()} EXTRA ON B] '{h}'")
-
-        return issues
-
     # ── Canonical URL ────────────────────────────────────────────────────────
 
     def _get_canonical(self, url: str) -> str:
-        """Extract canonical URL tag from a page."""
+        """Extract canonical URL - tries Playwright first, falls back to requests."""
         try:
+            # ── Try with Playwright (handles JS-rendered pages) ────────
+            html = self.fetcher.fetch_html(url)
+            if html:
+                from bs4 import BeautifulSoup
+                soup = BeautifulSoup(html, "html.parser")
+                tag  = soup.find("link", rel="canonical")
+                if tag and tag.get("href"):
+                    return tag["href"].strip()
+
+            # ── Fallback: try requests with different user agent ───────
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"
+            }
+            resp = requests.get(url, timeout=15, headers=headers)
             from bs4 import BeautifulSoup
-            resp = requests.get(url, timeout=10, headers={"User-Agent": "QAAgent/1.0"})
             soup = BeautifulSoup(resp.text, "html.parser")
             tag  = soup.find("link", rel="canonical")
             return tag["href"].strip() if tag and tag.get("href") else "No canonical tag found"
+
         except Exception as e:
             logger.warning(f"Could not get canonical for {url}: {e}")
             return "Error fetching canonical"
