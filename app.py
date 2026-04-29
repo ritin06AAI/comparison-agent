@@ -1011,79 +1011,50 @@ if results:
         ssl_count = len(ph.get("ssl_issues",    []))
         total_iss = ci_count + li_count + ii_count + ti_count + si_count + ssl_count
 
-        # ── Pre-calculate all colors ───────────────────────────────────
         status_color  = "#34d399" if s == "PASS" else "#f87171"
         status_bg     = "rgba(16,185,129,0.10)" if s == "PASS" else "rgba(239,68,68,0.10)"
         status_border = "#10b981" if s == "PASS" else "#ef4444"
         status_icon   = "✅" if s == "PASS" else "❌"
+        ci_color      = "#f87171" if ci_count  > 0 else "#34d399"
+        li_color      = "#f87171" if li_count  > 0 else "#34d399"
+        ii_color      = "#f87171" if ii_count  > 0 else "#34d399"
+        ti_color      = "#f87171" if ti_count  > 0 else "#34d399"
+        si_color      = "#f87171" if si_count  > 0 else "#34d399"
+        ssl_color     = "#f87171" if ssl_count > 0 else "#34d399"
+        tot_color     = "#f87171" if total_iss > 0 else "#34d399"
+        tot_border    = "#ef4444" if total_iss > 0 else "#10b981"
+        url_a         = r.get("url_a", "N/A")
+        url_b         = r.get("url_b", "N/A")
+        tname         = r.get("test_name", "N/A")
 
-        ci_color  = "#f87171" if ci_count  > 0 else "#34d399"
-        li_color  = "#f87171" if li_count  > 0 else "#34d399"
-        ii_color  = "#f87171" if ii_count  > 0 else "#34d399"
-        ti_color  = "#f87171" if ti_count  > 0 else "#34d399"
-        si_color  = "#f87171" if si_count  > 0 else "#34d399"
-        ssl_color = "#f87171" if ssl_count > 0 else "#34d399"
-        tot_color = "#f87171" if total_iss > 0 else "#34d399"
-        tot_border= "#ef4444" if total_iss > 0 else "#10b981"
-
-        url_a = r.get("url_a", "N/A")
-        url_b = r.get("url_b", "N/A")
-        tname = r.get("test_name", "N/A")
-
-        st.markdown(f"""
-<div style="background:#161b27;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:14px;">
-
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <div style="font-size:15px;font-weight:700;color:#f1f5f9;">🧪 {tname}</div>
-        <span style="background:{status_bg};border:1px solid {status_border};color:{status_color};font-size:12px;font-weight:700;padding:5px 14px;border-radius:99px;">
-            {status_icon} {s}
-        </span>
-    </div>
-
-    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:200px;background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:10px 14px;">
-            <div style="font-size:10px;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">● URL A</div>
-            <div style="font-size:12px;color:#93c5fd;font-family:monospace;word-break:break-all;">{url_a}</div>
-        </div>
-        <div style="flex:1;min-width:200px;background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:10px 14px;">
-            <div style="font-size:10px;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">● URL B</div>
-            <div style="font-size:12px;color:#6ee7b7;font-family:monospace;word-break:break-all;">{url_b}</div>
-        </div>
-    </div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{ci_color};">{ci_count}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">Content</div>
-        </div>
-        <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{li_color};">{li_count}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">Links</div>
-        </div>
-        <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{ii_color};">{ii_count}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">Images</div>
-        </div>
-        <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{ti_color};">{ti_count}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">Titles</div>
-        </div>
-        <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{si_color};">{si_count}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">Status</div>
-        </div>
-        <div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{ssl_color};">{ssl_count}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">SSL</div>
-        </div>
-        <div style="background:#0d1117;border:1px solid {tot_border};border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;">
-            <div style="font-size:18px;font-weight:700;color:{tot_color};">{total_iss}</div>
-            <div style="font-size:10px;color:#6b7280;margin-top:2px;">Total</div>
-        </div>
-    </div>
-
-</div>
-        """, unsafe_allow_html=True)
+        card = (
+            '<div style="background:#161b27;border:1px solid #1e2a3a;border-radius:12px;padding:20px;margin-bottom:14px;">'
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">'
+                    f'<div style="font-size:15px;font-weight:700;color:#f1f5f9;">🧪 {tname}</div>'
+                    f'<span style="background:{status_bg};border:1px solid {status_border};color:{status_color};font-size:12px;font-weight:700;padding:5px 14px;border-radius:99px;">{status_icon} {s}</span>'
+                '</div>'
+                '<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">'
+                    '<div style="flex:1;min-width:200px;background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:10px 14px;">'
+                        '<div style="font-size:10px;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">● URL A</div>'
+                        f'<div style="font-size:12px;color:#93c5fd;font-family:monospace;word-break:break-all;">{url_a}</div>'
+                    '</div>'
+                    '<div style="flex:1;min-width:200px;background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:10px 14px;">'
+                        '<div style="font-size:10px;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">● URL B</div>'
+                        f'<div style="font-size:12px;color:#6ee7b7;font-family:monospace;word-break:break-all;">{url_b}</div>'
+                    '</div>'
+                '</div>'
+                '<div style="display:flex;gap:8px;flex-wrap:wrap;">'
+                    f'<div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{ci_color};">{ci_count}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">Content</div></div>'
+                    f'<div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{li_color};">{li_count}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">Links</div></div>'
+                    f'<div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{ii_color};">{ii_count}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">Images</div></div>'
+                    f'<div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{ti_color};">{ti_count}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">Titles</div></div>'
+                    f'<div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{si_color};">{si_count}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">Status</div></div>'
+                    f'<div style="background:#0d1117;border:1px solid #1e2a3a;border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{ssl_color};">{ssl_count}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">SSL</div></div>'
+                    f'<div style="background:#0d1117;border:1px solid {tot_border};border-radius:8px;padding:8px 14px;text-align:center;min-width:80px;"><div style="font-size:18px;font-weight:700;color:{tot_color};">{total_iss}</div><div style="font-size:10px;color:#6b7280;margin-top:2px;">Total</div></div>'
+                '</div>'
+            '</div>'
+        )
+        st.markdown(card, unsafe_allow_html=True)
 
     # ── Detailed issues per test ─────────────────────────────────────────────────
     st.markdown('<div class="section-label">Detailed issues</div>', unsafe_allow_html=True)
