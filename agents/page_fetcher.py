@@ -33,37 +33,33 @@ class PageFetcher:
             raise
 
     def fetch_html_with_js(self, url: str, auth_type: Optional[str] = None, credentials: str = "") -> str:
-        """
-        Fetch fully JS-rendered HTML using Playwright.
-        Waits for networkidle so dynamic tags (canonical, headings) are present.
-        """
+        """Fetch JS-rendered HTML using Selenium."""
         try:
-            from playwright.sync_api import sync_playwright
+            from selenium import webdriver
+            from selenium.webdriver.chrome.options import Options
+            from selenium.webdriver.chrome.service import Service
+            from selenium.webdriver.support.ui import WebDriverWait
 
-            logger.info(f"Fetching URL (Playwright JS): {url}")
+            options = Options()
+            options.add_argument("--headless")
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-gpu")
+            options.binary_location = "/usr/bin/chromium"
 
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=self.headless)
+            service = Service("/usr/bin/chromedriver")
+            driver  = webdriver.Chrome(service=service, options=options)
 
-                context_options = {}
-                if auth_type == "basic" and ":" in credentials:
-                    user, pwd = credentials.split(":", 1)
-                    context_options["http_credentials"] = {"username": user, "password": pwd}
-
-                context = browser.new_context(**context_options)
-                page    = browser.new_page()
-                page.goto(url, timeout=int(self.timeout * 1000), wait_until="networkidle")
-
-                # Extra wait to ensure JS-injected tags are rendered
-                page.wait_for_timeout(2000)
-
-                html = page.content()
-                browser.close()
-
+            driver.get(url)
+            # Wait for page to fully load
+            import time
+            time.sleep(3)
+            html = driver.page_source
+            driver.quit()
             return html
 
         except Exception as e:
-            logger.warning(f"Playwright JS fetch failed for {url}: {e}")
+            logger.warning(f"Selenium JS fetch failed for {url}: {e}")
             # Fallback to requests
             return self.fetch_html(url, auth_type=auth_type, credentials=credentials)
 

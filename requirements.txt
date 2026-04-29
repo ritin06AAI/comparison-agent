@@ -1,6 +1,6 @@
 python-dotenv
-playwright
-pytest-playwright
+selenium
+webdriver-manager
 beautifulsoup4
 openpyxl
 python-docx

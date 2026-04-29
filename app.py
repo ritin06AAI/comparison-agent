@@ -21,24 +21,6 @@ import sys
 
 @st.cache_resource
 
-def install_playwright():
-    """Install Playwright browsers and system deps on first run."""
-    try:
-        subprocess.run(
-            [sys.executable, "-m", "playwright", "install", "chromium"],
-            capture_output=True,
-            check=True
-        )
-        subprocess.run(
-            [sys.executable, "-m", "playwright", "install-deps", "chromium"],
-            capture_output=True,
-            check=True
-        )
-        print("Playwright chromium installed successfully")
-    except Exception as e:
-        print(f"Playwright install failed: {e}")
-
-install_playwright()
 
 def send_email_report(recipient: str, results: list):
     """Send QA comparison results via email."""
