@@ -147,6 +147,40 @@ st.markdown("""
     [data-testid="stSidebar"] * {
         color: #c8ccd8 !important;
     }
+
+    /* ── Override sidebar * for specific elements ── */
+    [data-testid="stSidebar"] div[data-testid="stSelectbox"] span,
+    [data-testid="stSidebar"] div[data-testid="stSelectbox"] div[class*="singleValue"],
+    [data-testid="stSidebar"] div[data-testid="stSelectbox"] div[class*="ValueContainer"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    [data-testid="stSidebar"] div[data-testid="stSelectbox"] > div > div {
+        background: #0d1117 !important;
+        border: 1px solid #2d3748 !important;
+        border-radius: 8px !important;
+    }
+
+    /* ── Fix radio buttons in main area ── */
+    div[data-testid="stRadio"] label p,
+    div[data-testid="stRadio"] label span {
+        color: #e2e8f0 !important;
+        -webkit-text-fill-color: #e2e8f0 !important;
+        opacity: 1 !important;
+    }
+
+    /* ── Fix expander heading ── */
+    div[data-testid="stExpander"] summary,
+    div[data-testid="stExpander"] summary p,
+    div[data-testid="stExpander"] summary span,
+    div[data-testid="stExpander"] summary svg {
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+        opacity: 1 !important;
+        font-weight: 600 !important;
+    }
     [data-testid="stSidebar"] .sidebar-logo {
         display: flex;
         align-items: center;
