@@ -1,5 +1,6 @@
 python-dotenv
 playwright
+pytest-playwright
 beautifulsoup4
 openpyxl
 python-docx

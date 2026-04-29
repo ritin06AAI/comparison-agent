@@ -16,6 +16,24 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+import subprocess
+import sys
+
+@st.cache_resource
+def install_playwright():
+    """Install Playwright browsers on first run."""
+    try:
+        subprocess.run(
+            [sys.executable, "-m", "playwright", "install", "chromium"],
+            capture_output=True,
+            check=True
+        )
+        logger.info("Playwright chromium installed successfully")
+    except Exception as e:
+        logger.warning(f"Playwright install failed: {e}")
+
+install_playwright()
+
 def send_email_report(recipient: str, results: list):
     """Send QA comparison results via email."""
     try:
