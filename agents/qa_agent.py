@@ -294,19 +294,29 @@ class QAComparisonAgent:
     # ── Heading Structure ────────────────────────────────────────────────────
 
     def _get_headings(self, url: str) -> Dict[str, List[str]]:
-        """Extract H1/H2/H3 - tries Playwright first, falls back to requests."""
+        """Extract H1/H2/H3 - uses Playwright with JS wait."""
         try:
             from bs4 import BeautifulSoup
 
-            # ── Try Playwright first ───────────────────────────────────
-            html = self.fetcher.fetch_html(url)
-            if html:
-                soup = BeautifulSoup(html, "html.parser")
-                return {
-                    "h1": [h.get_text(strip=True) for h in soup.find_all("h1")],
-                    "h2": [h.get_text(strip=True) for h in soup.find_all("h2")],
-                    "h3": [h.get_text(strip=True) for h in soup.find_all("h3")],
-                }
+            # ── Try Playwright with networkidle wait ───────────────────
+            try:
+                from playwright.sync_api import sync_playwright
+                with sync_playwright() as p:
+                    browser = p.chromium.launch(headless=True)
+                    page    = browser.new_page()
+                    page.goto(url, wait_until="networkidle", timeout=30000)
+                    html    = page.content()
+                    browser.close()
+
+                    soup = BeautifulSoup(html, "html.parser")
+                    return {
+                        "h1": [h.get_text(strip=True) for h in soup.find_all("h1")],
+                        "h2": [h.get_text(strip=True) for h in soup.find_all("h2")],
+                        "h3": [h.get_text(strip=True) for h in soup.find_all("h3")],
+                    }
+
+            except Exception as e:
+                logger.warning(f"Playwright heading fetch failed for {url}: {e}")
 
             # ── Fallback: requests ─────────────────────────────────────
             headers = {
@@ -327,26 +337,44 @@ class QAComparisonAgent:
     # ── Canonical URL ────────────────────────────────────────────────────────
 
     def _get_canonical(self, url: str) -> str:
-        """Extract canonical URL - tries Playwright first, falls back to requests."""
+        """Extract canonical URL - uses Playwright with JS wait."""
         try:
-            # ── Try with Playwright (handles JS-rendered pages) ────────
-            html = self.fetcher.fetch_html(url)
-            if html:
-                from bs4 import BeautifulSoup
-                soup = BeautifulSoup(html, "html.parser")
-                tag  = soup.find("link", rel="canonical")
-                if tag and tag.get("href"):
-                    return tag["href"].strip()
+            from bs4 import BeautifulSoup
 
-            # ── Fallback: try requests with different user agent ───────
+            # ── Try Playwright with explicit wait for canonical ─────────
+            try:
+                from playwright.sync_api import sync_playwright
+                with sync_playwright() as p:
+                    browser = p.chromium.launch(headless=True)
+                    page    = browser.new_page()
+                    page.goto(url, wait_until="networkidle", timeout=30000)
+                    # Wait specifically for canonical tag to appear
+                    try:
+                        page.wait_for_selector("link[rel='canonical']", timeout=10000)
+                    except Exception:
+                        pass  # canonical might not exist
+                    html    = page.content()
+                    browser.close()
+
+                    soup = BeautifulSoup(html, "html.parser")
+                    tag  = soup.find("link", rel="canonical")
+                    if tag and tag.get("href"):
+                        return tag["href"].strip()
+
+            except Exception as e:
+                logger.warning(f"Playwright canonical fetch failed for {url}: {e}")
+
+            # ── Fallback: requests ─────────────────────────────────────
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36"
             }
             resp = requests.get(url, timeout=15, headers=headers)
-            from bs4 import BeautifulSoup
             soup = BeautifulSoup(resp.text, "html.parser")
             tag  = soup.find("link", rel="canonical")
-            return tag["href"].strip() if tag and tag.get("href") else "No canonical tag found"
+            if tag and tag.get("href"):
+                return tag["href"].strip()
+
+            return "No canonical tag found"
 
         except Exception as e:
             logger.warning(f"Could not get canonical for {url}: {e}")
@@ -379,7 +407,7 @@ class QAComparisonAgent:
         return issues
 
     def _check_canonical(self, url_a: str, url_b: str) -> List[str]:
-        
+
         """Check canonical tags on both pages."""
         issues      = []
         canonical_a = self._get_canonical(url_a)
