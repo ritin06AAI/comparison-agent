@@ -172,6 +172,7 @@ st.markdown("""
     }
 
     /* ── Fix expander heading ── */
+    /* ── Fix expander heading ── */
     div[data-testid="stExpander"] summary,
     div[data-testid="stExpander"] summary p,
     div[data-testid="stExpander"] summary span,
@@ -180,6 +181,33 @@ st.markdown("""
         -webkit-text-fill-color: #f1f5f9 !important;
         opacity: 1 !important;
         font-weight: 600 !important;
+    }
+
+    /* ── Expander background fix ── */
+    div[data-testid="stExpander"] {
+        background: #161b27 !important;
+        border: 1px solid #1e2a3a !important;
+        border-radius: 10px !important;
+    }
+
+    div[data-testid="stExpander"] summary {
+        background: #161b27 !important;
+        border-radius: 10px !important;
+        padding: 12px 16px !important;
+    }
+
+    div[data-testid="stExpander"] summary:hover {
+        background: #1e2a3a !important;
+    }
+
+    div[data-testid="stExpander"] summary > *,
+    div[data-testid="stExpander"] summary span,
+    div[data-testid="stExpander"] summary p,
+    div[data-testid="stExpander"] details > summary span {
+        color: #f1f5f9 !important;
+        -webkit-text-fill-color: #f1f5f9 !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
     }
     [data-testid="stSidebar"] .sidebar-logo {
         display: flex;
