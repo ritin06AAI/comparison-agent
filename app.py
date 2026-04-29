@@ -23,14 +23,14 @@ import sys
 def install_playwright():
     """Install Playwright browsers on first run."""
     try:
-        subprocess.run(
+        result = subprocess.run(
             [sys.executable, "-m", "playwright", "install", "chromium"],
             capture_output=True,
             check=True
         )
-        logger.info("Playwright chromium installed successfully")
+        print("Playwright chromium installed successfully")
     except Exception as e:
-        logger.warning(f"Playwright install failed: {e}")
+        print(f"Playwright install failed: {e}")
 
 install_playwright()
 
