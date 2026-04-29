@@ -20,11 +20,17 @@ import subprocess
 import sys
 
 @st.cache_resource
+
 def install_playwright():
-    """Install Playwright browsers on first run."""
+    """Install Playwright browsers and system deps on first run."""
     try:
-        result = subprocess.run(
+        subprocess.run(
             [sys.executable, "-m", "playwright", "install", "chromium"],
+            capture_output=True,
+            check=True
+        )
+        subprocess.run(
+            [sys.executable, "-m", "playwright", "install-deps", "chromium"],
             capture_output=True,
             check=True
         )
