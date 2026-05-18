@@ -14,7 +14,8 @@ class PageFetcher:
     def fetch_html(self, url: str, auth_type: Optional[str] = None, credentials: str = "") -> str:
         """
         Fetch page HTML using requests, with optional basic auth.
-        Falls back to Playwright if requests fails or returns empty.
+        auth_type: None or 'basic'
+        credentials: 'user:pass'
         """
         try:
             logger.info(f"Fetching URL (requests): {url}")
@@ -32,37 +33,6 @@ class PageFetcher:
             logger.error(f"Error fetching {url} via requests: {e}")
             raise
 
-    def fetch_html_with_js(self, url: str, auth_type: Optional[str] = None, credentials: str = "") -> str:
-        """Fetch JS-rendered HTML using Selenium."""
-        try:
-            from selenium import webdriver
-            from selenium.webdriver.chrome.options import Options
-            from selenium.webdriver.chrome.service import Service
-            from selenium.webdriver.support.ui import WebDriverWait
-
-            options = Options()
-            options.add_argument("--headless")
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--disable-gpu")
-            options.binary_location = "/usr/bin/chromium"
-
-            service = Service("/usr/bin/chromedriver")
-            driver  = webdriver.Chrome(service=service, options=options)
-
-            driver.get(url)
-            # Wait for page to fully load
-            import time
-            time.sleep(3)
-            html = driver.page_source
-            driver.quit()
-            return html
-
-        except Exception as e:
-            logger.warning(f"Selenium JS fetch failed for {url}: {e}")
-            # Fallback to requests
-            return self.fetch_html(url, auth_type=auth_type, credentials=credentials)
-
     def take_screenshot(
         self,
         url: str,
@@ -72,6 +42,7 @@ class PageFetcher:
     ) -> Optional[str]:
         """
         Take a full-page screenshot of the URL using Playwright.
+        Returns the saved screenshot path, or None if it fails.
         """
         try:
             from playwright.sync_api import sync_playwright

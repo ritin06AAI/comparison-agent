@@ -130,9 +130,7 @@ class QAComparisonAgent:
             "headings_a":       self._get_headings(url_a),
             "headings_b":       self._get_headings(url_b),
             "heading_issues":   self._check_headings(url_a, url_b),
-            "canonical_a":      self._get_canonical(url_a),
-            "canonical_b":      self._get_canonical(url_b),
-            "canonical_issues": self._check_canonical(url_a, url_b),
+            
         }
 
     # ── Page Title ───────────────────────────────────────────────────────────
