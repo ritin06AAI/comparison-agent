@@ -297,10 +297,14 @@ st.markdown("""
     [data-testid="stFileUploaderFile"] { background: #161b27 !important; border: 1px solid #334155 !important; border-radius: 10px !important; color: #ffffff !important; display: block !important; }
     [data-testid="stFileUploaderFile"] * { color: #ffffff !important; fill: #ffffff !important; -webkit-text-fill-color: #ffffff !important; visibility: visible !important; }
     [data-testid="stFileDropzoneInstructions"] small, [data-testid="stFileUploaderDropzone"] small { color: #f8fafc !important; font-size: 13px !important; font-weight: 600 !important; opacity: 1 !important; -webkit-text-fill-color: #f8fafc !important; }
-    [data-testid="stFileUploaderDropzone"] div, [data-testid="stFileUploaderDropzone"] p, [data-testid="stFileUploaderDropzone"] span { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; visibility: visible !important; opacity: 1 !important; }
+    [data-testid="stFileUploaderDropzone"] div, [data-testid="stFileUploaderDropzone"] p, [data-testid="stFileUploaderDropzone"] span, [data-testid="stFileUploaderDropzone"] label { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; visibility: visible !important; opacity: 1 !important; }
     [data-testid="stFileUploaderDropzone"] * { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; opacity: 1 !important; visibility: visible !important; }
-    [data-testid="stFileUploaderDropzone"] input[type="text"] { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; background: #0d1117 !important; border: 1px solid #2d3748 !important; opacity: 1 !important; }
+    [data-testid="stFileUploaderDropzone"] input[type="text"] { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; background: #0d1117 !important; border: 1px solid #2d3748 !important; opacity: 1 !important; visibility: visible !important; }
+    [data-testid="stFileUploader"] input[type="text"] { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; opacity: 1 !important; }
+    [data-testid="stFileUploader"] input { color: #ffffff !important; caret-color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; opacity: 1 !important; }
     [data-testid="stFileUploader"] input::placeholder { color: #9ca3af !important; opacity: 0.7 !important; }
+    [data-testid="stFileUploaderDropzone"] [role="button"] span { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+    [data-testid="stFileUploader"]::before, [data-testid="stFileUploader"]::after { color: #ffffff !important; }
 
     div[data-testid="stDataFrame"] { border: 1px solid #1e2a3a !important; border-radius: 10px !important; overflow: hidden; }
     div[data-testid="stToggle"] { accent-color: #3b82f6; }
@@ -575,14 +579,18 @@ else:
     uploader_key = f"file_uploader_{st.session_state.file_uploader_key}"
     uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"], label_visibility="collapsed", key=uploader_key)
 
+    # Remove button directly below file uploader
     if uploaded_file:
         col1, col2 = st.columns([2, 1])
         with col1:
-            st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
+            pass  # Empty space
         with col2:
-            if st.button("🗑️  Remove", type="secondary", use_container_width=True):
+            if st.button("Remove", type="secondary", use_container_width=True):
                 st.session_state.file_uploader_key += 1
                 st.rerun()
+
+    if uploaded_file:
+        st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
 
         run_col, _ = st.columns([2, 6])
         with run_col:
