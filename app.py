@@ -581,9 +581,9 @@ else:
 
     if uploaded_file:
         # Small remove button on the left, above the success message
-        btn_col, _ = st.columns([0.2, 4.8])
+        btn_col, _ = st.columns([1.2, 3.8])
         with btn_col:
-            if st.button("Remove uploaded file", key="remove_btn", use_container_width=False):
+            if st.button("🗑️ Remove File", key="remove_btn", use_container_width=False):
                 st.session_state.file_uploader_key += 1
                 st.rerun()
         
