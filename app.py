@@ -570,7 +570,12 @@ else:
     
 
     if uploaded_file:
-        st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
+        col1, col2 = st.columns([2, 1])
+        with col1:
+            st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
+        with col2:
+            if st.button("🗑️  Remove", type="secondary", use_container_width=True, key="remove_file"):
+                st.rerun()
 
         run_col, _ = st.columns([2, 6])
         with run_col:
