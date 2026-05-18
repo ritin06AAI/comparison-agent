@@ -243,23 +243,17 @@ class QAComparisonAgent:
             return {"valid": False, "reason": f"SSL check failed: {e}", "expires": None}
 
     def _check_ssl_issues(self, url_a: str, url_b: str) -> List[str]:
-        """Report SSL issues for both URLs."""
+        """Report SSL issues for both URLs — only flag if expired."""
         issues = []
-
         for label, url in [("URL A", url_a), ("URL B", url_b)]:
             result = self._check_ssl(url)
-
             if not result["valid"]:
                 issues.append(f"[SSL] {label} — {result['reason']}: {url}")
             elif result.get("days_left") is not None:
                 days = result["days_left"]
                 if days <= 0:
                     issues.append(f"[SSL] {label} — Certificate EXPIRED: {url}")
-                elif days <= 7:
-                    issues.append(f"[SSL] {label} — Certificate expires in {days} day(s) ⚠️ CRITICAL: {url}")
-                elif days <= 30:
-                    issues.append(f"[SSL] {label} — Certificate expires in {days} day(s) ⚠️ WARNING: {url}")
-
+                # Removed warnings for expiring soon — only flag if actually expired
         return issues
 
     # ════════════════════════════════════════════════════════════════════════

@@ -533,7 +533,37 @@ else:
     """, unsafe_allow_html=True)
     st.markdown("")
 
+# ── Sample file download ───────────────────────────────────────────────
+    st.markdown('<div class="section-label">Need a template?</div>', unsafe_allow_html=True)
+
+    sample_data = {
+        "TEST_NAME": ["Homepage Comparison", "About Page", "Products Page"],
+        "URL_A":     ["https://uat.example.com/", "https://uat.example.com/about", "https://uat.example.com/products"],
+        "URL_B":     ["https://www.example.com/", "https://www.example.com/about", "https://www.example.com/products"],
+        "PRIORITY":  ["High", "Medium", "Low"],
+    }
+
+    import io
+    sample_df     = pd.DataFrame(sample_data)
+    sample_buffer = io.BytesIO()
+    with pd.ExcelWriter(sample_buffer, engine="openpyxl") as writer:
+        sample_df.to_excel(writer, index=False, sheet_name="Test Cases")
+    sample_buffer.seek(0)
+
+    dl_col, _ = st.columns([2, 6])
+    with dl_col:
+        st.download_button(
+            "📥 Download Sample File",
+            data=sample_buffer,
+            file_name="sample_test_cases.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True,
+        )
+    st.markdown("")
+
     uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"], label_visibility="collapsed")
+
+    
 
     if uploaded_file:
         st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
