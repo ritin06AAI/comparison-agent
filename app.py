@@ -325,7 +325,9 @@ st.markdown("""
     div[data-testid="stExpander"] summary span,
     div[data-testid="stExpander"] summary svg,
     div[data-testid="stExpander"] details > summary span { color: #f1f5f9 !important; -webkit-text-fill-color: #f1f5f9 !important; opacity: 1 !important; font-weight: 600 !important; font-size: 13px !important; }
-</style>
+    div[data-testid="stDownloadButton"] button { background: #2563eb !important; color: #ffffff !important; border: none !important; border-radius: 8px !important; font-size: 13px !important; font-weight: 600 !important; }
+    div[data-testid="stDownloadButton"] button * { color: #ffffff !important; fill: #ffffff !important; -webkit-text-fill-color: #ffffff !important; opacity: 1 !important; }
+    div[data-testid="stDownloadButton"] button:hover { background: #1d4ed8 !important; }</style>
 """, unsafe_allow_html=True)
 
 
