@@ -286,9 +286,9 @@ st.markdown("""
     div[data-testid="stTextInput"] input:focus { border-color: #3b82f6 !important; box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important; }
     div[data-testid="stTextInput"] div[data-testid="InputInstructions"] { display: none !important; }
 
-    div[data-testid="stButton"] button[kind="primary"] { background: #1d4ed8 !important; border: none !important; border-radius: 8px !important; font-size: 13px !important; font-weight: 600 !important; padding: 0.55rem 1.4rem !important; transition: all 0.2s !important; }
+    div[data-testid="stButton"] button[kind="primary"] { background: #1d4ed8 !important; border: none !important; border-radius: 8px !important; font-size: 13px !important; font-weight: 600 !important; padding: 0.55rem 1.4rem !important; transition: all 0.2s !important; height: auto !important; min-height: 40px !important; }
     div[data-testid="stButton"] button[kind="primary"]:hover { background: #2563eb !important; transform: translateY(-1px); }
-    div[data-testid="stButton"] button[kind="secondary"] { background: transparent !important; border: 1px solid #2d3748 !important; border-radius: 8px !important; color: #94a3b8 !important; font-size: 12px !important; }
+    div[data-testid="stButton"] button[kind="secondary"] { background: transparent !important; border: 1px solid #2d3748 !important; border-radius: 8px !important; color: #94a3b8 !important; font-size: 11px !important; padding: 0.25rem 0.6rem !important; min-height: 28px !important; height: auto !important; }
 
     [data-testid="stFileUploader"] section[data-testid="stFileUploaderDropzone"] { background: #161b27 !important; border: 1px dashed #334155 !important; border-radius: 12px !important; padding: 16px !important; }
     [data-testid="stFileUploaderDropzone"] button { background: #2563eb !important; color: #ffffff !important; border: 1px solid #3b82f6 !important; border-radius: 8px !important; font-size: 14px !important; font-weight: 700 !important; opacity: 1 !important; -webkit-text-fill-color: #ffffff !important; }
@@ -579,17 +579,14 @@ else:
     uploader_key = f"file_uploader_{st.session_state.file_uploader_key}"
     uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"], label_visibility="collapsed", key=uploader_key)
 
-    # Remove button directly below file uploader
     if uploaded_file:
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            pass  # Empty space
-        with col2:
-            if st.button("Remove", type="secondary", use_container_width=True):
+        # Small remove button on the left, above the success message
+        btn_col, _ = st.columns([0.2, 4.8])
+        with btn_col:
+            if st.button("Remove uploaded file", key="remove_btn", use_container_width=False):
                 st.session_state.file_uploader_key += 1
                 st.rerun()
-
-    if uploaded_file:
+        
         st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
 
         run_col, _ = st.columns([2, 6])
