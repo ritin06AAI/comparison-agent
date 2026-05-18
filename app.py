@@ -299,6 +299,8 @@ st.markdown("""
     [data-testid="stFileDropzoneInstructions"] small, [data-testid="stFileUploaderDropzone"] small { color: #f8fafc !important; font-size: 13px !important; font-weight: 600 !important; opacity: 1 !important; -webkit-text-fill-color: #f8fafc !important; }
     [data-testid="stFileUploaderDropzone"] div, [data-testid="stFileUploaderDropzone"] p, [data-testid="stFileUploaderDropzone"] span { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
     [data-testid="stFileUploaderDropzone"] * { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; opacity: 1 !important; }
+    [data-testid="stFileUploaderDropzone"] input { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+    [data-testid="stFileUploader"] input::placeholder { color: #9ca3af !important; opacity: 0.7 !important; }
 
     div[data-testid="stDataFrame"] { border: 1px solid #1e2a3a !important; border-radius: 10px !important; overflow: hidden; }
     div[data-testid="stToggle"] { accent-color: #3b82f6; }
@@ -565,17 +567,25 @@ else:
         )
     st.markdown("")
 
-    uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"], label_visibility="collapsed")
+    # Initialize session state for file upload clearing
+    if "clear_file_uploader" not in st.session_state:
+        st.session_state.clear_file_uploader = False
+
+    uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"], label_visibility="collapsed", key="file_uploader_main")
 
     
 
-    if uploaded_file:
+    if uploaded_file and not st.session_state.clear_file_uploader:
         col1, col2 = st.columns([2, 1])
         with col1:
             st.success(f"✅ **{uploaded_file.name}** uploaded successfully")
         with col2:
             if st.button("🗑️  Remove", type="secondary", use_container_width=True, key="remove_file"):
+                st.session_state.clear_file_uploader = True
                 st.rerun()
+    elif st.session_state.clear_file_uploader:
+        st.session_state.clear_file_uploader = False
+        st.rerun()
 
         run_col, _ = st.columns([2, 6])
         with run_col:
