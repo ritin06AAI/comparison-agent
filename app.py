@@ -297,6 +297,8 @@ st.markdown("""
     [data-testid="stFileUploaderFile"] { background: #161b27 !important; border: 1px solid #334155 !important; border-radius: 10px !important; color: #ffffff !important; }
     [data-testid="stFileUploaderFile"] * { color: #ffffff !important; fill: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
     [data-testid="stFileDropzoneInstructions"] small, [data-testid="stFileUploaderDropzone"] small { color: #f8fafc !important; font-size: 13px !important; font-weight: 600 !important; opacity: 1 !important; -webkit-text-fill-color: #f8fafc !important; }
+    [data-testid="stFileUploaderDropzone"] div, [data-testid="stFileUploaderDropzone"] p, [data-testid="stFileUploaderDropzone"] span { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; }
+    [data-testid="stFileUploaderDropzone"] * { color: #ffffff !important; -webkit-text-fill-color: #ffffff !important; opacity: 1 !important; }
 
     div[data-testid="stDataFrame"] { border: 1px solid #1e2a3a !important; border-radius: 10px !important; overflow: hidden; }
     div[data-testid="stToggle"] { accent-color: #3b82f6; }
