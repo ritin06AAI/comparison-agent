@@ -949,7 +949,7 @@ elif not results:
         <div style="font-size:16px; font-weight:600; color:#94a3b8; margin-bottom:8px;">Ready to compare</div>
         <div style="font-size:13px; color:#6b7280; max-width:380px; margin:0 auto;">
             Enter two URLs above and click <strong style="color:#93c5fd;">Run Comparison</strong>,
-            or switch to Batch mode to upload an Excel file.
+            or switch to Batch mode to upload an Excel fil.
         </div>
     </div>
     """, unsafe_allow_html=True)
